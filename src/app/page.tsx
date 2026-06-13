@@ -1,65 +1,86 @@
-import Image from "next/image";
+import { DocsSection } from "@/components/cnpj/docs-section";
+import { FormatterPanel } from "@/components/cnpj/formatter-panel";
+import { GeneratorPanel } from "@/components/cnpj/generator-panel";
+import { ValidatorPanel } from "@/components/cnpj/validator-panel";
+import { JsonLd } from "@/components/json-ld";
+import { SiteFooter } from "@/components/site-footer";
+import { SiteHeader } from "@/components/site-header";
+import { ToolsSection } from "@/components/tools-section";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { MAX_BATCH_SIZE } from "@/lib/cnpj";
+import { CNPJ_FAQ } from "@/lib/faq";
+import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
+
+const webApplicationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  name: SITE_NAME,
+  url: SITE_URL,
+  description: SITE_DESCRIPTION,
+  applicationCategory: "DeveloperApplication",
+  operatingSystem: "Web",
+  inLanguage: "pt-BR",
+  isAccessibleForFree: true,
+  offers: { "@type": "Offer", price: "0", priceCurrency: "BRL" },
+  featureList: [
+    `Geração de CNPJ válido em lote (até ${MAX_BATCH_SIZE} por vez)`,
+    "Suporte aos formatos numérico (legado) e alfanumérico (novo)",
+    "Validação de dígitos verificadores",
+    "Formatação e remoção de máscara",
+  ],
+};
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: CNPJ_FAQ.map((item) => ({
+    "@type": "Question",
+    name: item.question,
+    acceptedAnswer: { "@type": "Answer", text: item.answer },
+  })),
+};
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+    <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col px-4 py-10 sm:px-6 sm:py-14">
+      <JsonLd data={webApplicationJsonLd} />
+      <JsonLd data={faqJsonLd} />
+
+      <SiteHeader
+        active="cnpj"
+        badge="Novo formato alfanumérico · jul/2026"
+        heading="Gerador de CNPJ numérico e alfanumérico — com validador, formatador e geração em lote para testes de software."
+      />
+
+      <Tabs defaultValue="generator" className="mt-8 w-full">
+        <TabsList className="grid w-full grid-cols-3 rounded-xl !h-11">
+          <TabsTrigger value="generator">Gerador</TabsTrigger>
+          <TabsTrigger value="validator">Validador</TabsTrigger>
+          <TabsTrigger value="formatter">Formatador</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="generator" className="mt-5">
+          <GeneratorPanel />
+        </TabsContent>
+
+        <TabsContent value="validator" className="mt-5">
+          <ValidatorPanel />
+        </TabsContent>
+
+        <TabsContent value="formatter" className="mt-5">
+          <FormatterPanel />
+        </TabsContent>
+      </Tabs>
+
+      <div className="mt-14">
+        <DocsSection />
+      </div>
+
+      <div className="mt-14">
+        <ToolsSection exclude="cnpj" />
+      </div>
+
+      <SiteFooter />
     </div>
   );
 }
