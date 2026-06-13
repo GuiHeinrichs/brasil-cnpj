@@ -48,7 +48,7 @@ export default function Home() {
 
       <SiteHeader
         active="cnpj"
-        badge="Novo formato alfanumérico · jul/2026"
+        badge="Novo formato alfanumérico"
         heading="Gerador de CNPJ numérico e alfanumérico — com validador, formatador e geração em lote para testes de software."
       />
 
