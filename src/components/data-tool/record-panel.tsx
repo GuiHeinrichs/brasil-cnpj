@@ -16,8 +16,49 @@ import {
 } from "@/components/ui/select";
 import { copyToClipboard } from "@/lib/copy-to-clipboard";
 import type { GeneratedRecord } from "@/lib/dados";
-import { recordToText } from "@/lib/dados";
+import {
+  recordsToJson,
+  recordsToXml,
+  recordToJson,
+  recordToText,
+  recordToXml,
+} from "@/lib/dados";
 import { cn } from "@/lib/utils";
+
+const COPY_FORMATS = ["Texto", "JSON", "XML"] as const;
+type CopyFormat = (typeof COPY_FORMATS)[number];
+
+/** Grupo compacto de cópia: a mesma ficha em Texto, JSON ou XML. */
+function CopyFormatGroup({
+  build,
+  toastLabel,
+}: {
+  build: (format: CopyFormat) => string;
+  toastLabel: string;
+}) {
+  return (
+    <div className="flex shrink-0 items-center gap-1">
+      <CopyIcon className="size-3.5 text-muted-foreground" aria-hidden />
+      <div className="flex items-center gap-0.5 rounded-lg border bg-muted/40 p-0.5">
+        {COPY_FORMATS.map((format) => (
+          <Button
+            key={format}
+            type="button"
+            variant="ghost"
+            size="sm"
+            className="h-7 px-2 text-xs"
+            aria-label={`Copiar ${toastLabel} como ${format}`}
+            onClick={() =>
+              copyToClipboard(build(format), `${toastLabel} (${format})`)
+            }
+          >
+            {format}
+          </Button>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 type RecordPanelProps = {
   /** Rótulo singular para botões/toasts ("Pessoa"). */
@@ -52,16 +93,16 @@ function RecordCard({
             </p>
           )}
         </div>
-        <Button
-          type="button"
-          variant="ghost"
-          size="sm"
-          className="shrink-0"
-          onClick={() => copyToClipboard(recordToText(record), label)}
-        >
-          <CopyIcon data-icon="inline-start" />
-          Copiar ficha
-        </Button>
+        <CopyFormatGroup
+          toastLabel={label}
+          build={(format) =>
+            format === "JSON"
+              ? recordToJson(record)
+              : format === "XML"
+                ? recordToXml(record, label)
+                : recordToText(record)
+          }
+        />
       </header>
 
       <dl className="divide-y">
@@ -193,20 +234,16 @@ export function RecordPanel({
           <p className="text-sm text-muted-foreground">
             {resultsLabel(records.length)}
           </p>
-          <Button
-            type="button"
-            variant="ghost"
-            size="sm"
-            onClick={() =>
-              copyToClipboard(
-                records.map(recordToText).join("\n\n"),
-                pluralLabel,
-              )
+          <CopyFormatGroup
+            toastLabel={pluralLabel}
+            build={(format) =>
+              format === "JSON"
+                ? recordsToJson(records)
+                : format === "XML"
+                  ? recordsToXml(records, label, pluralLabel)
+                  : records.map(recordToText).join("\n\n")
             }
-          >
-            <CopyIcon data-icon="inline-start" />
-            Copiar tudo
-          </Button>
+          />
         </div>
       )}
 

@@ -74,6 +74,7 @@ export function pessoaToRecord(pessoa: Pessoa): GeneratedRecord {
   return {
     title: pessoa.nome,
     subtitle: `${pessoa.idade} anos · ${endereco.cidade}/${endereco.uf}`,
+    titleLabel: "Nome",
     fields: [
       { label: "CPF", value: pessoa.cpf, mono: true },
       { label: "RG", value: pessoa.rg, mono: true },

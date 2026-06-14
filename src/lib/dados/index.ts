@@ -14,7 +14,13 @@ import {
 import { maybe, pick, pickSome, randomInt, slugify } from "./random";
 
 export type { GeneratedRecord, RecordField } from "./types";
-export { recordToText } from "./types";
+export {
+  recordToText,
+  recordToJson,
+  recordsToJson,
+  recordToXml,
+  recordsToXml,
+} from "./types";
 export * from "./random";
 export * from "./data";
 

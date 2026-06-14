@@ -81,6 +81,7 @@ export function empresaToRecord(empresa: Empresa): GeneratedRecord {
   return {
     title: empresa.razaoSocial,
     subtitle: `${empresa.nomeFantasia} · ${endereco.cidade}/${endereco.uf}`,
+    titleLabel: "Razão social",
     fields: [
       { label: "Nome fantasia", value: empresa.nomeFantasia },
       { label: "CNPJ", value: empresa.cnpj, mono: true },
