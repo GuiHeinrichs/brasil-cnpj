@@ -1,10 +1,12 @@
 import type { Metadata, Viewport } from "next";
 import { IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
+import Script from "next/script";
 
 import { AdSlot } from "@/components/ad-slot";
 import { SiteTopBar } from "@/components/site-top-bar";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
+import { ADSENSE_CLIENT } from "@/lib/ads";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, SITE_URL } from "@/lib/site";
 
 import "./globals.css";
@@ -65,6 +67,10 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
+  // Meta-tag de verificação do AdSense (um dos métodos aceitos ao cadastrar o site).
+  other: ADSENSE_CLIENT
+    ? { "google-adsense-account": ADSENSE_CLIENT }
+    : {},
 };
 
 export const viewport: Viewport = {
@@ -100,6 +106,16 @@ export default function RootLayout({
           </div>
           <Toaster richColors closeButton />
         </ThemeProvider>
+        {ADSENSE_CLIENT && (
+          // beforeInteractive: o Next injeta o script dentro do <head>, exatamente
+          // como o AdSense pede no método "Snippet de código do AdSense".
+          <Script
+            id="adsbygoogle-init"
+            strategy="beforeInteractive"
+            crossOrigin="anonymous"
+            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}`}
+          />
+        )}
       </body>
     </html>
   );
