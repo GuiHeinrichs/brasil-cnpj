@@ -3,10 +3,12 @@ import { IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
 import Script from "next/script";
 
 import { AdSlot } from "@/components/ad-slot";
+import { JsonLd } from "@/components/json-ld";
 import { SiteTopBar } from "@/components/site-top-bar";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { ADSENSE_CLIENT } from "@/lib/ads";
+import { siteJsonLd } from "@/lib/schema";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, SITE_URL } from "@/lib/site";
 
 import "./globals.css";
@@ -92,6 +94,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="flex min-h-full flex-col">
+        <JsonLd data={siteJsonLd} />
         <ThemeProvider>
           <SiteTopBar />
           <div className="mx-auto flex w-full max-w-7xl flex-1 justify-center gap-8 xl:px-6">
