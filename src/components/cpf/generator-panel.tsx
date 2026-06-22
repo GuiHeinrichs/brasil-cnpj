@@ -1,10 +1,12 @@
 "use client";
 
-import { CopyIcon, RefreshCwIcon } from "lucide-react";
+import { RefreshCwIcon } from "lucide-react";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 import { CpfText, SegmentLegend } from "@/components/cpf/cpf-text";
 import { Button } from "@/components/ui/button";
+import { CopyButton } from "@/components/ui/copy-button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -14,7 +16,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { copyToClipboard } from "@/lib/copy-to-clipboard";
 import { FISCAL_REGIONS, generateCpf, MAX_BATCH_SIZE } from "@/lib/cpf";
 import { cn } from "@/lib/utils";
 
@@ -50,6 +51,10 @@ export function GeneratorPanel() {
       }),
     );
     setGeneration((value) => value + 1);
+
+    toast.success("Gerado com sucesso", {
+      description: parsedCount > 1 ? `${parsedCount} CPFs gerados` : undefined,
+    });
   }
 
   useEffect(() => {
@@ -89,15 +94,9 @@ export function GeneratorPanel() {
         <SegmentLegend />
 
         {latest && (
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            onClick={() => copyToClipboard(latest, "CPF")}
-          >
-            <CopyIcon data-icon="inline-start" />
+          <CopyButton variant="outline" size="sm" value={latest} toastLabel="CPF">
             Copiar
-          </Button>
+          </CopyButton>
         )}
       </div>
 
@@ -180,15 +179,14 @@ export function GeneratorPanel() {
             <p className="text-sm text-muted-foreground">
               {results.length} CPFs gerados
             </p>
-            <Button
-              type="button"
+            <CopyButton
               variant="ghost"
               size="sm"
-              onClick={() => copyToClipboard(results.join("\n"), "CPFs")}
+              value={results.join("\n")}
+              toastLabel="CPFs"
             >
-              <CopyIcon data-icon="inline-start" />
               Copiar tudo
-            </Button>
+            </CopyButton>
           </div>
           <ul className="max-h-72 divide-y overflow-y-auto border-t">
             {results.map((cpf, index) => (
@@ -197,15 +195,14 @@ export function GeneratorPanel() {
                 className="flex items-center justify-between gap-3 px-5 py-2 sm:px-6"
               >
                 <CpfText value={cpf} className="text-sm break-all" />
-                <Button
-                  type="button"
+                <CopyButton
                   variant="ghost"
                   size="icon-sm"
                   aria-label={`Copiar ${cpf}`}
-                  onClick={() => copyToClipboard(cpf, "CPF")}
-                >
-                  <CopyIcon className="size-3.5" />
-                </Button>
+                  value={cpf}
+                  toastLabel="CPF"
+                  iconClassName="size-3.5"
+                />
               </li>
             ))}
           </ul>

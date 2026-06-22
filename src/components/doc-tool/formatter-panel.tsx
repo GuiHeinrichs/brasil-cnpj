@@ -1,14 +1,14 @@
 "use client";
 
-import { CircleAlertIcon, CopyIcon } from "lucide-react";
+import { CircleAlertIcon } from "lucide-react";
 import { useState } from "react";
 
 import { DocText } from "@/components/doc-tool/doc-text";
 import type { DocSegment } from "@/components/doc-tool/doc-text";
 import { Button } from "@/components/ui/button";
+import { CopyButton } from "@/components/ui/copy-button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { copyToClipboard } from "@/lib/copy-to-clipboard";
 
 type FormatterPanelProps = {
   /** Rótulo do campo e dos toasts ("PIS/PASEP"). */
@@ -95,15 +95,14 @@ export function FormatterPanel({
             separators={separators}
             className="text-base break-all sm:text-lg"
           />
-          <Button
-            type="button"
+          <CopyButton
             variant="ghost"
             size="icon-sm"
             aria-label="Copiar resultado"
-            onClick={() => copyToClipboard(output, label)}
-          >
-            <CopyIcon className="size-3.5" />
-          </Button>
+            value={output}
+            toastLabel={label}
+            iconClassName="size-3.5"
+          />
         </div>
       )}
 

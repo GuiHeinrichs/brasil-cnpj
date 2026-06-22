@@ -1,13 +1,13 @@
 "use client";
 
-import { CircleAlertIcon, CopyIcon } from "lucide-react";
+import { CircleAlertIcon } from "lucide-react";
 import { useState } from "react";
 
 import { CpfText } from "@/components/cpf/cpf-text";
 import { Button } from "@/components/ui/button";
+import { CopyButton } from "@/components/ui/copy-button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { copyToClipboard } from "@/lib/copy-to-clipboard";
 import { CPF_LENGTH, mask, strip } from "@/lib/cpf";
 
 export function FormatterPanel() {
@@ -69,15 +69,14 @@ export function FormatterPanel() {
       {output && (
         <div className="flex items-center justify-between gap-3 rounded-xl border bg-muted/40 px-4 py-3">
           <CpfText value={output} className="text-base break-all sm:text-lg" />
-          <Button
-            type="button"
+          <CopyButton
             variant="ghost"
             size="icon-sm"
             aria-label="Copiar resultado"
-            onClick={() => copyToClipboard(output, "CPF")}
-          >
-            <CopyIcon className="size-3.5" />
-          </Button>
+            value={output}
+            toastLabel="CPF"
+            iconClassName="size-3.5"
+          />
         </div>
       )}
 

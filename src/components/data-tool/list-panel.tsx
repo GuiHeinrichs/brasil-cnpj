@@ -1,10 +1,12 @@
 "use client";
 
-import { CopyIcon, RefreshCwIcon } from "lucide-react";
+import { RefreshCwIcon } from "lucide-react";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 import type { GeneratorSelect } from "@/components/doc-tool/generator-panel";
 import { Button } from "@/components/ui/button";
+import { CopyButton } from "@/components/ui/copy-button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -14,7 +16,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { copyToClipboard } from "@/lib/copy-to-clipboard";
 import { cn } from "@/lib/utils";
 
 type ListPanelProps = {
@@ -58,6 +59,10 @@ export function ListPanel({
     setCount(String(parsedCount));
     setResults(generate({ count: parsedCount, selectValues }));
     setGeneration((value) => value + 1);
+
+    toast.success("Gerado com sucesso", {
+      description: parsedCount > 1 ? resultsLabel(parsedCount) : undefined,
+    });
   }
 
   useEffect(() => {
@@ -102,15 +107,9 @@ export function ListPanel({
         </div>
 
         {latest && (
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            onClick={() => copyToClipboard(latest, label)}
-          >
-            <CopyIcon data-icon="inline-start" />
+          <CopyButton variant="outline" size="sm" value={latest} toastLabel={label}>
             Copiar
-          </Button>
+          </CopyButton>
         )}
       </div>
 
@@ -178,15 +177,14 @@ export function ListPanel({
             <p className="text-sm text-muted-foreground">
               {resultsLabel(results.length)}
             </p>
-            <Button
-              type="button"
+            <CopyButton
               variant="ghost"
               size="sm"
-              onClick={() => copyToClipboard(results.join("\n"), pluralLabel)}
+              value={results.join("\n")}
+              toastLabel={pluralLabel}
             >
-              <CopyIcon data-icon="inline-start" />
               Copiar tudo
-            </Button>
+            </CopyButton>
           </div>
           <ul className="max-h-72 divide-y overflow-y-auto border-t">
             {results.map((value, index) => (
@@ -197,15 +195,14 @@ export function ListPanel({
                 <span className={cn("text-sm break-all", mono && "font-mono")}>
                   {value}
                 </span>
-                <Button
-                  type="button"
+                <CopyButton
                   variant="ghost"
                   size="icon-sm"
                   aria-label={`Copiar ${value}`}
-                  onClick={() => copyToClipboard(value, label)}
-                >
-                  <CopyIcon className="size-3.5" />
-                </Button>
+                  value={value}
+                  toastLabel={label}
+                  iconClassName="size-3.5"
+                />
               </li>
             ))}
           </ul>

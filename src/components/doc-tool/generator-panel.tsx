@@ -1,11 +1,13 @@
 "use client";
 
-import { CopyIcon, RefreshCwIcon } from "lucide-react";
+import { RefreshCwIcon } from "lucide-react";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 import { DocSegmentLegend, DocText } from "@/components/doc-tool/doc-text";
 import type { DocSegment } from "@/components/doc-tool/doc-text";
 import { Button } from "@/components/ui/button";
+import { CopyButton } from "@/components/ui/copy-button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -15,7 +17,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { copyToClipboard } from "@/lib/copy-to-clipboard";
 import { cn } from "@/lib/utils";
 
 export type GeneratorSelect = {
@@ -82,6 +83,10 @@ export function GeneratorPanel({
       }),
     );
     setGeneration((value) => value + 1);
+
+    toast.success("Gerado com sucesso", {
+      description: parsedCount > 1 ? resultsLabel(parsedCount) : undefined,
+    });
   }
 
   useEffect(() => {
@@ -125,15 +130,9 @@ export function GeneratorPanel({
         <DocSegmentLegend segments={segments} />
 
         {latest && (
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            onClick={() => copyToClipboard(latest, label)}
-          >
-            <CopyIcon data-icon="inline-start" />
+          <CopyButton variant="outline" size="sm" value={latest} toastLabel={label}>
             Copiar
-          </Button>
+          </CopyButton>
         )}
       </div>
 
@@ -221,15 +220,14 @@ export function GeneratorPanel({
             <p className="text-sm text-muted-foreground">
               {resultsLabel(results.length)}
             </p>
-            <Button
-              type="button"
+            <CopyButton
               variant="ghost"
               size="sm"
-              onClick={() => copyToClipboard(results.join("\n"), pluralLabel)}
+              value={results.join("\n")}
+              toastLabel={pluralLabel}
             >
-              <CopyIcon data-icon="inline-start" />
               Copiar tudo
-            </Button>
+            </CopyButton>
           </div>
           <ul className="max-h-72 divide-y overflow-y-auto border-t">
             {results.map((value, index) => (
@@ -244,15 +242,14 @@ export function GeneratorPanel({
                   separators={separators}
                   className="text-sm break-all"
                 />
-                <Button
-                  type="button"
+                <CopyButton
                   variant="ghost"
                   size="icon-sm"
                   aria-label={`Copiar ${value}`}
-                  onClick={() => copyToClipboard(value, label)}
-                >
-                  <CopyIcon className="size-3.5" />
-                </Button>
+                  value={value}
+                  toastLabel={label}
+                  iconClassName="size-3.5"
+                />
               </li>
             ))}
           </ul>

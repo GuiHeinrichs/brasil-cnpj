@@ -1,10 +1,12 @@
 "use client";
 
-import { CopyIcon, RefreshCwIcon } from "lucide-react";
-import { useEffect, useState } from "react";
+import { CheckIcon, CopyIcon, RefreshCwIcon } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { toast } from "sonner";
 
 import type { GeneratorSelect } from "@/components/doc-tool/generator-panel";
 import { Button } from "@/components/ui/button";
+import { CopyButton } from "@/components/ui/copy-button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -36,9 +38,39 @@ function CopyFormatGroup({
   build: (format: CopyFormat) => string;
   toastLabel: string;
 }) {
+  const [copied, setCopied] = useState(false);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(
+    () => () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    },
+    [],
+  );
+
+  async function handleCopy(format: CopyFormat) {
+    const copiedOk = await copyToClipboard(
+      build(format),
+      `${toastLabel} (${format})`,
+    );
+    if (!copiedOk) return;
+
+    setCopied(true);
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    timeoutRef.current = setTimeout(() => setCopied(false), 2000);
+  }
+
+  const Icon = copied ? CheckIcon : CopyIcon;
+
   return (
     <div className="flex shrink-0 items-center gap-1">
-      <CopyIcon className="size-3.5 text-muted-foreground" aria-hidden />
+      <Icon
+        className={cn(
+          "size-3.5",
+          copied ? "text-emerald-600 dark:text-emerald-500" : "text-muted-foreground",
+        )}
+        aria-hidden
+      />
       <div className="flex items-center gap-0.5 rounded-lg border bg-muted/40 p-0.5">
         {COPY_FORMATS.map((format) => (
           <Button
@@ -48,9 +80,7 @@ function CopyFormatGroup({
             size="sm"
             className="h-7 px-2 text-xs"
             aria-label={`Copiar ${toastLabel} como ${format}`}
-            onClick={() =>
-              copyToClipboard(build(format), `${toastLabel} (${format})`)
-            }
+            onClick={() => handleCopy(format)}
           >
             {format}
           </Button>
@@ -123,15 +153,14 @@ function RecordCard({
               >
                 {field.value}
               </span>
-              <Button
-                type="button"
+              <CopyButton
                 variant="ghost"
                 size="icon-sm"
                 aria-label={`Copiar ${field.label}`}
-                onClick={() => copyToClipboard(field.value, field.label)}
-              >
-                <CopyIcon className="size-3.5" />
-              </Button>
+                value={field.value}
+                toastLabel={field.label}
+                iconClassName="size-3.5"
+              />
             </dd>
           </div>
         ))}
@@ -160,6 +189,10 @@ export function RecordPanel({
     const parsedCount = Math.min(Math.max(parseInt(count, 10) || 1, 1), maxBatch);
     setCount(String(parsedCount));
     setRecords(generate({ count: parsedCount, selectValues }));
+
+    toast.success("Gerado com sucesso", {
+      description: parsedCount > 1 ? resultsLabel(parsedCount) : undefined,
+    });
   }
 
   useEffect(() => {

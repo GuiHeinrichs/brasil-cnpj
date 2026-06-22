@@ -1,10 +1,12 @@
 "use client";
 
-import { CopyIcon, RefreshCwIcon } from "lucide-react";
+import { RefreshCwIcon } from "lucide-react";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 import { CnpjText, SegmentLegend } from "@/components/cnpj/cnpj-text";
 import { Button } from "@/components/ui/button";
+import { CopyButton } from "@/components/ui/copy-button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -14,7 +16,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { copyToClipboard } from "@/lib/copy-to-clipboard";
 import { generateCnpj, MAX_BATCH_SIZE } from "@/lib/cnpj";
 import type { CnpjFormat } from "@/lib/cnpj";
 import { cn } from "@/lib/utils";
@@ -41,6 +42,10 @@ export function GeneratorPanel() {
       }),
     );
     setGeneration((value) => value + 1);
+
+    toast.success("Gerado com sucesso", {
+      description: parsedCount > 1 ? `${parsedCount} CNPJs gerados` : undefined,
+    });
   }
 
   useEffect(() => {
@@ -84,15 +89,9 @@ export function GeneratorPanel() {
         <SegmentLegend />
 
         {latest && (
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            onClick={() => copyToClipboard(latest, "CNPJ")}
-          >
-            <CopyIcon data-icon="inline-start" />
+          <CopyButton variant="outline" size="sm" value={latest} toastLabel="CNPJ">
             Copiar
-          </Button>
+          </CopyButton>
         )}
       </div>
 
@@ -173,15 +172,14 @@ export function GeneratorPanel() {
             <p className="text-sm text-muted-foreground">
               {results.length} CNPJs gerados
             </p>
-            <Button
-              type="button"
+            <CopyButton
               variant="ghost"
               size="sm"
-              onClick={() => copyToClipboard(results.join("\n"), "CNPJs")}
+              value={results.join("\n")}
+              toastLabel="CNPJs"
             >
-              <CopyIcon data-icon="inline-start" />
               Copiar tudo
-            </Button>
+            </CopyButton>
           </div>
           <ul className="max-h-72 divide-y overflow-y-auto border-t">
             {results.map((cnpj, index) => (
@@ -190,15 +188,14 @@ export function GeneratorPanel() {
                 className="flex items-center justify-between gap-3 px-5 py-2 sm:px-6"
               >
                 <CnpjText value={cnpj} className="text-sm break-all" />
-                <Button
-                  type="button"
+                <CopyButton
                   variant="ghost"
                   size="icon-sm"
                   aria-label={`Copiar ${cnpj}`}
-                  onClick={() => copyToClipboard(cnpj, "CNPJ")}
-                >
-                  <CopyIcon className="size-3.5" />
-                </Button>
+                  value={cnpj}
+                  toastLabel="CNPJ"
+                  iconClassName="size-3.5"
+                />
               </li>
             ))}
           </ul>

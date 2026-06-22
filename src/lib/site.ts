@@ -7,6 +7,12 @@ export const SITE_URL = "https://batecarimbo.com.br";
 
 export const SITE_NAME = "bateCarimbo";
 
+/**
+ * E-mail de contato público (política de privacidade, LGPD). Aponta para o
+ * domínio — configure um encaminhamento ou troque aqui se usar outro endereço.
+ */
+export const CONTACT_EMAIL = "contato@batecarimbo.com.br";
+
 export const SITE_TITLE =
   "Gerador de CNPJ válido — numérico e alfanumérico | bateCarimbo";
 

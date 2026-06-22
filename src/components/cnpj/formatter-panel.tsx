@@ -1,13 +1,13 @@
 "use client";
 
-import { CircleAlertIcon, CopyIcon } from "lucide-react";
+import { CircleAlertIcon } from "lucide-react";
 import { useState } from "react";
 
 import { CnpjText } from "@/components/cnpj/cnpj-text";
 import { Button } from "@/components/ui/button";
+import { CopyButton } from "@/components/ui/copy-button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { copyToClipboard } from "@/lib/copy-to-clipboard";
 import { mask, strip } from "@/lib/cnpj";
 
 export function FormatterPanel() {
@@ -69,15 +69,14 @@ export function FormatterPanel() {
       {output && (
         <div className="flex items-center justify-between gap-3 rounded-xl border bg-muted/40 px-4 py-3">
           <CnpjText value={output} className="text-base break-all sm:text-lg" />
-          <Button
-            type="button"
+          <CopyButton
             variant="ghost"
             size="icon-sm"
             aria-label="Copiar resultado"
-            onClick={() => copyToClipboard(output, "CNPJ")}
-          >
-            <CopyIcon className="size-3.5" />
-          </Button>
+            value={output}
+            toastLabel="CNPJ"
+            iconClassName="size-3.5"
+          />
         </div>
       )}
 
