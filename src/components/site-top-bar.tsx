@@ -19,6 +19,12 @@ export function SiteTopBar() {
 
         <div className="flex items-center gap-2">
           <GeneratorsMenu />
+          <Link
+            href="/sobre"
+            className="hidden font-mono text-xs text-muted-foreground underline-offset-4 hover:text-foreground hover:underline sm:block"
+          >
+            Sobre
+          </Link>
           <ThemeToggle />
         </div>
       </div>

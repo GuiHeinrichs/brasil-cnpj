@@ -27,10 +27,24 @@ export function SiteFooter() {
         <p>
           MIT License · Ferramenta para testes — não use em produção fiscal ·{" "}
           <Link
+            href="/sobre"
+            className="underline-offset-4 hover:text-foreground hover:underline"
+          >
+            Sobre
+          </Link>{" "}
+          ·{" "}
+          <Link
+            href="/termos"
+            className="underline-offset-4 hover:text-foreground hover:underline"
+          >
+            Termos
+          </Link>{" "}
+          ·{" "}
+          <Link
             href="/privacidade"
             className="underline-offset-4 hover:text-foreground hover:underline"
           >
-            Política de Privacidade
+            Privacidade
           </Link>
         </p>
       </footer>

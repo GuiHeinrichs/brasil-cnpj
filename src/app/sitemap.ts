@@ -14,6 +14,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     ...tools,
     {
+      url: `${SITE_URL}/sobre`,
+      lastModified: new Date(),
+      changeFrequency: "yearly" as const,
+      priority: 0.5,
+    },
+    {
+      url: `${SITE_URL}/termos`,
+      lastModified: new Date(),
+      changeFrequency: "yearly" as const,
+      priority: 0.2,
+    },
+    {
       url: `${SITE_URL}/privacidade`,
       lastModified: new Date(),
       changeFrequency: "yearly" as const,

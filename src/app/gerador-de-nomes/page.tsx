@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { DocsWarning, FaqSection } from "@/components/doc-tool/reference";
+import { SectionLabel } from "@/components/docs";
 import { JsonLd } from "@/components/json-ld";
 import { NomeGeneratorPanel } from "@/components/nome/panels";
 import { SiteFooter } from "@/components/site-footer";
@@ -46,6 +47,29 @@ const webApplicationJsonLd = toolJsonLd({
   ],
 });
 
+const USE_CASES = [
+  {
+    title: "Seeds e fixtures",
+    description:
+      "Popular tabelas de usuários em bancos de dados de desenvolvimento com nomes verossímeis em vez de \"Teste Teste\" ou \"AAAA BBBB\".",
+  },
+  {
+    title: "Testes automatizados",
+    description:
+      "Gerar dados de entrada para testes de formulários de cadastro, validação de campos de nome e fluxos de criação de conta.",
+  },
+  {
+    title: "Protótipos e mockups",
+    description:
+      "Substituir placeholders genéricos em Figma, Storybook ou templates HTML por nomes que tornam o design mais realista durante apresentações.",
+  },
+  {
+    title: "Demonstrações",
+    description:
+      "Exibir listas de clientes, colaboradores ou participantes em demos de produto sem expor dados de pessoas reais.",
+  },
+];
+
 export default function GeradorDeNomes() {
   return (
     <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col px-4 py-10 sm:px-6 sm:py-14">
@@ -69,6 +93,50 @@ export default function GeradorDeNomes() {
             destinadas a testes de software. Qualquer coincidência com pessoas
             reais é casual.
           </DocsWarning>
+
+          <div className="space-y-4">
+            <SectionLabel>Como os nomes são gerados</SectionLabel>
+            <p className="text-sm text-muted-foreground">
+              A ferramenta combina aleatoriamente prenomes e sobrenomes comuns no
+              Brasil. Os prenomes masculinos e femininos são mantidos em listas
+              separadas para que o filtro de sexo funcione corretamente. Os
+              sobrenomes — geralmente de origem portuguesa, italiana, alemã,
+              japonesa ou indígena, refletindo a diversidade da imigração
+              brasileira — são compartilhados entre os sexos. Cada nome gerado
+              tem um prenome e um ou dois sobrenomes, seguindo o padrão mais
+              comum nos registros civis brasileiros.
+            </p>
+          </div>
+
+          <div className="space-y-4">
+            <SectionLabel>Casos de uso comuns</SectionLabel>
+            <div className="grid gap-3 sm:grid-cols-2">
+              {USE_CASES.map((item) => (
+                <div key={item.title} className="rounded-xl border bg-card p-4">
+                  <h3 className="text-sm font-semibold">{item.title}</h3>
+                  <p className="mt-2 text-sm text-muted-foreground">
+                    {item.description}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="space-y-3">
+            <SectionLabel>Integração com outros geradores</SectionLabel>
+            <p className="text-sm text-muted-foreground">
+              Para fichas completas — com CPF, RG, endereço e contato coerentes
+              por estado — use o{" "}
+              <a
+                href="/gerador-de-pessoas"
+                className="text-foreground underline underline-offset-4 hover:text-foreground/80"
+              >
+                Gerador de Pessoas
+              </a>
+              . Ele usa o mesmo banco de nomes e combina todos os campos em uma
+              ficha coerente, pronta para copiar.
+            </p>
+          </div>
 
           <FaqSection items={NOME_FAQ} />
         </section>

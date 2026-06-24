@@ -301,6 +301,21 @@ export const NOME_FAQ = [
     answer:
       "Informe a quantidade desejada e gere a lista em lote, com botão de copiar por nome e \"Copiar tudo\" para levar todos de uma vez.",
   },
+  {
+    question: "Os nomes gerados podem coincidir com pessoas reais?",
+    answer:
+      "Matematicamente sim — prenomes e sobrenomes comuns se combinam de infinitas formas. Qualquer coincidência é casual: a ferramenta não consulta nenhum cadastro real e não é possível rastrear uma pessoa a partir de um nome gerado aqui.",
+  },
+  {
+    question: "Posso usar esses nomes em produção?",
+    answer:
+      "Não. Os nomes são gerados para testes de software. Não os utilize em sistemas reais com usuários, em formulários públicos ou em qualquer contexto que exija dados de pessoas reais.",
+  },
+  {
+    question: "Quantos nomes posso gerar de uma vez?",
+    answer:
+      "Você pode gerar até 50 nomes por vez. Para volumes maiores, gere em múltiplos lotes e use o botão \"Copiar tudo\" em cada rodada.",
+  },
 ];
 
 export const NICK_FAQ = [
@@ -315,8 +330,23 @@ export const NICK_FAQ = [
       "Limpo (DarkWolf), com números (DarkWolf42), leet com substituição de letras (D4rkW0lf) e underscore (dark_wolf_07). Em Aleatório, os estilos se misturam.",
   },
   {
+    question: "O que é o estilo leet (l33t)?",
+    answer:
+      "Leet speak é uma convenção de escrita na internet em que certas letras são substituídas por números visualmente parecidos: A→4, E→3, I→1, O→0, S→5. Surgiu nas décadas de 1980 e 1990 em fóruns e comunidades de hackers e é muito usada em nomes de usuário de jogos.",
+  },
+  {
     question: "O nick gerado está disponível na plataforma que eu uso?",
     answer:
       "A ferramenta apenas sugere combinações — não verifica disponibilidade em nenhum serviço. Confirme no próprio site ou jogo antes de usar.",
+  },
+  {
+    question: "Posso usar esses nicks em perfis de teste automatizados?",
+    answer:
+      "Sim. Gere em lote e copie a lista para popular seeds ou scripts de teste que precisem criar usuários fictícios com usernames plausíveis.",
+  },
+  {
+    question: "De onde vêm as palavras usadas nos nicks?",
+    answer:
+      "As palavras são selecionadas de um banco de adjetivos e substantivos em inglês comuns em contextos de jogos e comunidades online (dark, wolf, storm, shadow, etc.). Elas são combinadas aleatoriamente em pares.",
   },
 ];

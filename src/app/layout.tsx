@@ -3,6 +3,7 @@ import { IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
 import Script from "next/script";
 
 import { AdSlot } from "@/components/ad-slot";
+import { CookieBanner } from "@/components/cookie-banner";
 import { JsonLd } from "@/components/json-ld";
 import { SiteTopBar } from "@/components/site-top-bar";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -108,6 +109,7 @@ export default function RootLayout({
             </aside>
           </div>
           <Toaster richColors closeButton />
+          <CookieBanner />
         </ThemeProvider>
         {ADSENSE_CLIENT && (
           // beforeInteractive: o Next injeta o script dentro do <head>, exatamente
