@@ -6,6 +6,7 @@ import {
   AnatomySection,
   DocsWarning,
   FaqSection,
+  GuideSection,
   OfficialLinksSection,
 } from "@/components/doc-tool/reference";
 import { JsonLd } from "@/components/json-ld";
@@ -98,6 +99,38 @@ export default function GeradorDePis() {
             exclusivamente a testes de software. Não correspondem a
             trabalhadores reais.
           </DocsWarning>
+
+          <GuideSection title="PIS, PASEP, NIS e NIT: o mesmo número">
+            <p>
+              PIS, PASEP, NIS e NIT são nomes diferentes para o mesmo número de
+              onze dígitos que identifica o trabalhador nos cadastros sociais do
+              governo. O <strong>PIS</strong> (Programa de Integração Social) é
+              atribuído a quem trabalha na iniciativa privada e administrado pela
+              Caixa; o <strong>PASEP</strong> cumpre o mesmo papel para
+              servidores públicos, pela via do Banco do Brasil. Quando a pessoa
+              é inscrita pelo INSS, o número aparece como{" "}
+              <strong>NIT</strong> (Número de Identificação do Trabalhador), e no
+              CadÚnico como <strong>NIS</strong>. Estruturalmente, todos seguem o
+              mesmo formato e a mesma regra de dígito verificador.
+            </p>
+            <p>
+              O número tem dez dígitos de base e um dígito verificador calculado
+              por módulo 11, com a sequência de pesos 3, 2, 9, 8, 7, 6, 5, 4, 3 e
+              2. É esse dígito final que permite detectar erros de digitação:
+              trocar ou inverter um algarismo quase sempre quebra a conta. A
+              máscara de exibição é <code className="font-mono text-foreground">
+              999.99999.99-9</code>, mas em bancos de dados o número costuma ser
+              armazenado apenas com os onze dígitos, sem pontuação.
+            </p>
+            <p>
+              Em testes de software, o PIS aparece em folhas de pagamento,
+              sistemas de RH, integrações com o eSocial e telas de solicitação de
+              benefícios como o abono salarial. Gerar números fictícios, porém
+              válidos no dígito verificador, permite exercitar essas rotinas sem
+              recorrer a dados reais de trabalhadores — o que seria uma exposição
+              desnecessária de informação pessoal sensível.
+            </p>
+          </GuideSection>
 
           <AnatomySection
             title="Anatomia do PIS"

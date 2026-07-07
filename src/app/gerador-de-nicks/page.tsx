@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 
-import { DocsWarning, FaqSection } from "@/components/doc-tool/reference";
+import {
+  DocsWarning,
+  FaqSection,
+  GuideSection,
+} from "@/components/doc-tool/reference";
 import { SectionLabel } from "@/components/docs";
 import { JsonLd } from "@/components/json-ld";
 import { NickGeneratorPanel } from "@/components/nick/panels";
@@ -97,6 +101,27 @@ export default function GeradorDeNicks() {
             verifica disponibilidade em nenhuma plataforma — confirme antes de
             usar.
           </DocsWarning>
+
+          <GuideSection title="Nicks para inspiração e para testar sistemas">
+            <p>
+              Um nick, apelido ou <strong>username</strong> é o identificador
+              público que uma pessoa escolhe em jogos, fóruns e redes sociais.
+              Cada plataforma impõe regras diferentes: tamanho mínimo e máximo,
+              se aceita números, underscore ou acentos, e se exige unicidade. Por
+              isso um nick que funciona em um lugar pode ser recusado em outro — o
+              gerador oferece estilos variados justamente para cobrir esses
+              cenários, do apelido gamer ao username técnico.
+            </p>
+            <p>
+              Além de servir de inspiração para quem procura um apelido novo, uma
+              lista de nicks é ótima massa de teste para quem desenvolve: permite
+              exercitar a validação de campos de username, checagens de
+              disponibilidade e unicidade, filtros de conteúdo e o comportamento
+              da interface com apelidos curtos, longos ou com caracteres
+              especiais. Gerar dezenas de uma vez cobre esses limites sem precisar
+              inventar exemplos um a um.
+            </p>
+          </GuideSection>
 
           <div className="space-y-4">
             <SectionLabel>Os quatro estilos explicados</SectionLabel>

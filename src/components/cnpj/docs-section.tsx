@@ -3,6 +3,7 @@
 import { ExternalLinkIcon, TriangleAlertIcon } from "lucide-react";
 
 import { CNPJ_SEGMENTS, CnpjText } from "@/components/cnpj/cnpj-text";
+import { GuideSection } from "@/components/doc-tool/reference";
 import { CopyableCode, SectionLabel } from "@/components/docs";
 import { Badge } from "@/components/ui/badge";
 import { ALPHANUMERIC_REGEX, NUMERIC_REGEX } from "@/lib/cnpj";
@@ -68,6 +69,40 @@ export function DocsSection() {
           exclusivamente a testes de software. Não representam empresas reais.
         </p>
       </div>
+
+      <GuideSection title="O que é o CNPJ e como ele muda em 2026">
+        <p>
+          O Cadastro Nacional da Pessoa Jurídica é o número que identifica
+          empresas e outras entidades perante a Receita Federal. Ele tem catorze
+          posições divididas em três partes: os oito primeiros dígitos são a{" "}
+          <strong>raiz</strong>, que identifica a empresa; os quatro seguintes
+          são a <strong>ordem</strong> do estabelecimento, em que{" "}
+          <code className="font-mono text-foreground">0001</code> designa a matriz
+          e os números seguintes as filiais; e os dois últimos são{" "}
+          <strong>dígitos verificadores</strong> calculados por módulo 11. Ou
+          seja, matriz e filiais de uma mesma empresa compartilham a raiz e
+          diferem apenas na ordem.
+        </p>
+        <p>
+          A grande novidade é o <strong>CNPJ alfanumérico</strong>: a partir de
+          julho de 2026, as novas inscrições passam a aceitar letras de A a Z,
+          além dos números, na raiz e na ordem — só os dois dígitos verificadores
+          continuam sempre numéricos. A mudança foi necessária porque as
+          combinações puramente numéricas estão se esgotando. Os CNPJs numéricos
+          já existentes permanecem válidos e não mudam; o novo formato convive com
+          o antigo. O cálculo do DV foi adaptado para tratar cada caractere pelo
+          seu valor (código ASCII menos 48), o que faz A valer 17, B valer 18, e
+          assim por diante.
+        </p>
+        <p>
+          Ter os dois formatos à mão importa para quem desenvolve: bancos de
+          dados, máscaras de entrada, validadores e integrações fiscais precisam
+          ser testados contra o formato numérico legado e o alfanumérico novo
+          antes de 2026. Gerar CNPJs fictícios com DV correto, em lote, permite
+          preparar essas rotinas com antecedência sem depender de números de
+          empresas reais.
+        </p>
+      </GuideSection>
 
       <div className="space-y-5">
         <SectionLabel>Anatomia do CNPJ</SectionLabel>

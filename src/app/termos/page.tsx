@@ -72,8 +72,8 @@ export default function Termos() {
           <p>
             O {SITE_NAME} é uma ferramenta gratuita que gera documentos e dados
             brasileiros fictícios — incluindo CNPJ, CPF, CNH, RG, Título de
-            Eleitor, PIS/PASEP, RENAVAM, placa veicular, cartão de crédito, CEP
-            e fichas completas de pessoas e empresas —{" "}
+            Eleitor, PIS/PASEP, RENAVAM, placa veicular, CEP e fichas completas
+            de pessoas e empresas —{" "}
             <strong className="font-medium text-foreground">
               exclusivamente para uso em testes de software
             </strong>

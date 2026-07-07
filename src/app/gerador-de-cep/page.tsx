@@ -11,6 +11,7 @@ import {
   AnatomySection,
   DocsWarning,
   FaqSection,
+  GuideSection,
   OfficialLinksSection,
 } from "@/components/doc-tool/reference";
 import { JsonLd } from "@/components/json-ld";
@@ -109,6 +110,37 @@ export default function GeradorDeCep() {
             sorteados ao acaso e podem não corresponder a um logradouro real.
             Use apenas para testes de software.
           </DocsWarning>
+
+          <GuideSection title="Como o CEP é estruturado">
+            <p>
+              O Código de Endereçamento Postal tem oito dígitos organizados de
+              forma hierárquica pelos Correios. Os cinco primeiros formam o{" "}
+              <strong>prefixo</strong>, que vai do mais geral ao mais específico:
+              região, sub-região, setor, subsetor e divisor de subsetor. Os três
+              últimos dígitos são o <strong>sufixo</strong>, que identifica o
+              logradouro, o conjunto de logradouros ou uma unidade de
+              distribuição, como caixas postais e grandes usuários. A leitura é
+              geográfica — o primeiro dígito sozinho já indica a região do país.
+            </p>
+            <p>
+              O território brasileiro é dividido em dez regiões postais, numeradas
+              de 0 a 9 a partir de São Paulo (capital) e seguindo em sentido
+              anti-horário pelo restante do país. Por isso cada estado ocupa uma
+              faixa contínua de CEPs: gerar um CEP de um estado específico
+              significa sortear um número dentro da faixa oficial daquela UF, como
+              mostra a tabela abaixo. O CEP não tem dígito verificador — a
+              validação é feita conferindo se o número pertence a uma faixa
+              existente.
+            </p>
+            <p>
+              CEPs de teste são úteis para preencher formulários de endereço,
+              exercitar integrações de cálculo de frete, telas de checkout e
+              cadastros que consultam a UF ou a cidade a partir do CEP. Como os
+              números aqui são sorteados dentro da faixa correta, eles passam nas
+              validações de formato e de estado sem precisar apontar para um
+              endereço real de uma pessoa.
+            </p>
+          </GuideSection>
 
           <AnatomySection
             title="Anatomia do CEP"

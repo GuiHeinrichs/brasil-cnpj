@@ -148,29 +148,6 @@ export const RENAVAM_FAQ = [
   },
 ];
 
-export const CARTAO_FAQ = [
-  {
-    question: "Os cartões de crédito gerados são reais?",
-    answer:
-      "Não. São números fictícios que apenas satisfazem o algoritmo de Luhn e os prefixos (BIN) de cada bandeira, criados para testes de software. Não têm saldo, não passam em autorização e não pertencem a ninguém.",
-  },
-  {
-    question: "Quais bandeiras a ferramenta gera?",
-    answer:
-      "Visa, Mastercard, Elo e Hipercard — todas com 16 dígitos. Escolha a bandeira no Gerador ou deixe em Aleatória para misturar. O Validador identifica a bandeira automaticamente pelo BIN.",
-  },
-  {
-    question: "O que é o algoritmo de Luhn?",
-    answer:
-      "É a fórmula de dígito verificador usada por cartões de crédito: dobra-se um a cada dois dígitos (da direita para a esquerda), soma-se tudo e o total precisa ser múltiplo de 10. O Validador aplica exatamente essa checagem.",
-  },
-  {
-    question: "Posso usar esses números em pagamentos?",
-    answer:
-      "Não. Servem apenas para validar máscaras, formulários e fluxos de checkout em ambiente de teste. Para transações reais ou sandbox de gateways, use os cartões de teste fornecidos pelo próprio provedor.",
-  },
-];
-
 export const RG_FAQ = [
   {
     question: "Os RGs gerados são reais?",

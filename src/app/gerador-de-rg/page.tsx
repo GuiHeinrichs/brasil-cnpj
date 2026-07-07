@@ -6,6 +6,7 @@ import {
   AnatomySection,
   DocsWarning,
   FaqSection,
+  GuideSection,
   OfficialLinksSection,
 } from "@/components/doc-tool/reference";
 import { JsonLd } from "@/components/json-ld";
@@ -98,6 +99,34 @@ export default function GeradorDeRg() {
             exclusivamente a testes de software. Não correspondem a documentos
             reais nem constam em nenhuma Secretaria de Segurança Pública.
           </DocsWarning>
+
+          <GuideSection title="Por que o RG não tem um padrão único">
+            <p>
+              Ao contrário do CPF, o Registro Geral não é nacional: cada estado
+              emite o RG pela sua Secretaria de Segurança Pública, com numeração,
+              tamanho e regra de dígito verificador próprios. Uma pessoa pode
+              inclusive ter mais de um RG, emitido em estados diferentes. Isso faz
+              com que não exista uma fórmula única de validação — o número que é
+              válido em São Paulo pode não seguir a regra de outro estado.
+            </p>
+            <p>
+              Esta ferramenta adota o <strong>padrão da SSP-SP</strong>, o mais
+              difundido e o que a maioria dos validadores online implementa: oito
+              dígitos de base mais um dígito verificador calculado por módulo 11,
+              que pode assumir os valores de 0 a 9 ou <strong>X</strong> quando o
+              resultado é 10. A máscara usual de exibição é{" "}
+              <code className="font-mono text-foreground">00.000.000-0</code>.
+            </p>
+            <p>
+              Vale registrar que o RG está sendo gradualmente substituído pela{" "}
+              <strong>CIN</strong> (Carteira de Identidade Nacional), que unifica o
+              documento em todo o país usando o número do CPF como identificador.
+              Enquanto a transição não termina, o RG no formato SSP-SP continua
+              amplamente pedido em cadastros — e gerar números fictícios com DV
+              correto é a maneira de testar esses formulários sem manipular a
+              identidade de pessoas reais.
+            </p>
+          </GuideSection>
 
           <AnatomySection
             title="Anatomia do RG"

@@ -3,6 +3,7 @@
 import { ExternalLinkIcon, TriangleAlertIcon } from "lucide-react";
 
 import { CPF_SEGMENTS, CpfText } from "@/components/cpf/cpf-text";
+import { GuideSection } from "@/components/doc-tool/reference";
 import { CopyableCode, SectionLabel } from "@/components/docs";
 import { CPF_MASKED_REGEX, CPF_REGEX, FISCAL_REGIONS } from "@/lib/cpf";
 import { CPF_FAQ } from "@/lib/faq";
@@ -48,6 +49,38 @@ export function DocsSection() {
           reais.
         </p>
       </div>
+
+      <GuideSection title="O que é o CPF e o que os dígitos significam">
+        <p>
+          O Cadastro de Pessoas Físicas é o número que identifica cada
+          contribuinte perante a Receita Federal. São onze dígitos: os nove
+          primeiros formam o <strong>número-base</strong> e os dois últimos são{" "}
+          <strong>dígitos verificadores</strong> calculados por módulo 11. Um
+          detalhe pouco conhecido é que o nono dígito indica a{" "}
+          <strong>região fiscal</strong> em que o CPF foi emitido — cada valor de
+          0 a 9 corresponde a um grupo de estados, como mostra a tabela adiante.
+          Por isso é possível gerar CPFs vinculados a um estado específico.
+        </p>
+        <p>
+          Os dígitos verificadores existem para detectar erros de digitação: uma
+          troca ou inversão de algarismos quase sempre invalida o número. Vale
+          notar que sequências com todos os dígitos iguais, como{" "}
+          <code className="font-mono text-foreground">111.111.111-11</code>,
+          satisfazem o cálculo matemático, mas são rejeitadas por convenção — um
+          bom validador precisa tratar esses casos. O CPF real também carrega uma
+          situação cadastral (regular, suspensa, cancelada) que só a Receita
+          conhece; um número gerado tem apenas o formato e o DV corretos, sem
+          qualquer situação associada.
+        </p>
+        <p>
+          Números fictícios são a forma segura de testar cadastros, checkouts,
+          emissão de notas e integrações que exigem um CPF válido no formato.
+          Usar CPFs de teste em vez de dados reais é também uma boa prática de
+          proteção de dados: como o CPF é um dado pessoal protegido pela LGPD,
+          mantê-lo fora de ambientes de desenvolvimento e homologação reduz o
+          risco de vazamento de informação de pessoas verdadeiras.
+        </p>
+      </GuideSection>
 
       <div className="space-y-5">
         <SectionLabel>Anatomia do CPF</SectionLabel>

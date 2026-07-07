@@ -8,6 +8,7 @@ import {
   AnatomySection,
   DocsWarning,
   FaqSection,
+  GuideSection,
   OfficialLinksSection,
 } from "@/components/doc-tool/reference";
 import { JsonLd } from "@/components/json-ld";
@@ -89,6 +90,38 @@ export default function GeradorDeCnh() {
             exclusivamente a testes de software. Não correspondem a condutores
             reais.
           </DocsWarning>
+
+          <GuideSection title="Para que serve o gerador de CNH">
+            <p>
+              A Carteira Nacional de Habilitação tem um{" "}
+              <strong>número de registro nacional</strong> de 11 dígitos, que é
+              o identificador único do condutor no cadastro do SENATRAN e
+              acompanha a pessoa por toda a vida, mesmo quando a via física é
+              renovada. Ele não deve ser confundido com o número do documento
+              (número do espelho), que muda a cada emissão, nem com o número de
+              segurança impresso no verso da carteira — esses três campos
+              existem no cartão, mas apenas o registro tem dígitos verificadores
+              calculados por fórmula.
+            </p>
+            <p>
+              O número é formado por nove dígitos de base mais dois dígitos
+              verificadores obtidos por dois cálculos de módulo 11. A categoria
+              da habilitação (A para motos, B para carros, C, D e E para veículos
+              de carga e transporte de passageiros, além das combinações como
+              AB) não faz parte do número: é um atributo separado do cadastro.
+              Por isso um gerador de CNH produz apenas o registro numérico
+              válido, sem vincular categoria, validade ou pontuação.
+            </p>
+            <p>
+              Na prática, esses números servem para preencher cadastros de
+              motoristas em aplicativos de mobilidade e entrega, telas de
+              conferência de documentos, importações de planilhas e testes
+              automatizados que exigem um registro com DV correto. Usar números
+              fictícios em vez de CNHs reais mantém o ambiente de teste em
+              conformidade com a LGPD e evita expor dados de pessoas verdadeiras
+              em bases de desenvolvimento.
+            </p>
+          </GuideSection>
 
           <AnatomySection
             title="Anatomia da CNH"

@@ -11,7 +11,7 @@ export const TOOL_CATEGORIES = [
     hint: "Dados fictícios completos",
   },
   { id: "veiculos", label: "Veículos", hint: "RENAVAM e placas" },
-  { id: "outros", label: "Outros", hint: "Cartão de crédito e CEP" },
+  { id: "outros", label: "Outros", hint: "CEP por faixa oficial" },
 ] as const;
 
 export type CategoryId = (typeof TOOL_CATEGORIES)[number]["id"];
@@ -81,14 +81,6 @@ export const TOOLS = [
     href: "/gerador-de-placa",
     category: "veiculos",
     blurb: "Mercosul (ABC1D23) e antiga (ABC-1234), com validador.",
-  },
-  {
-    id: "cartao",
-    label: "Cartão",
-    name: "Gerador de Cartão de Crédito",
-    href: "/gerador-de-cartao-de-credito",
-    category: "outros",
-    blurb: "Visa, Mastercard, Elo e Hipercard válidos (Luhn), com validador.",
   },
   {
     id: "cep",

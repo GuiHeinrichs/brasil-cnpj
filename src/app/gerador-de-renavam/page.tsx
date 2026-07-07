@@ -6,6 +6,7 @@ import {
   AnatomySection,
   DocsWarning,
   FaqSection,
+  GuideSection,
   OfficialLinksSection,
 } from "@/components/doc-tool/reference";
 import { JsonLd } from "@/components/json-ld";
@@ -92,6 +93,36 @@ export default function GeradorDeRenavam() {
             exclusivamente a testes de software. Não correspondem a veículos
             reais.
           </DocsWarning>
+
+          <GuideSection title="O que é o RENAVAM">
+            <p>
+              RENAVAM é a sigla do <strong>Registro Nacional de Veículos
+              Automotores</strong>, a base mantida pelo Departamento Nacional de
+              Trânsito que reúne todos os veículos licenciados no país. O número
+              do RENAVAM identifica o veículo nesse cadastro de forma única e
+              permanente: ele é atribuído no primeiro emplacamento e acompanha o
+              carro por toda a vida útil, mesmo que a placa, o proprietário ou o
+              estado de registro mudem. Não confunda com a placa nem com o número
+              do chassi — são identificadores diferentes do mesmo veículo.
+            </p>
+            <p>
+              Desde 2013 o RENAVAM tem onze dígitos: dez de base mais um dígito
+              verificador por módulo 11. Veículos registrados antes dessa
+              padronização tinham nove dígitos e continuam válidos; para
+              compatibilizar, basta completar com zeros à esquerda até chegar aos
+              onze. É por isso que um bom validador aceita tanto o formato antigo
+              quanto o novo.
+            </p>
+            <p>
+              O número é exigido em praticamente toda operação de trânsito:
+              licenciamento anual, pagamento de IPVA, transferência de
+              propriedade, consulta de multas e comunicação de venda. Em
+              desenvolvimento, ele aparece em sistemas de despachantes,
+              seguradoras, revendas e marketplaces de veículos. Gerar RENAVAMs
+              fictícios com DV correto permite popular esses cadastros e testar as
+              máscaras de entrada sem usar dados de veículos reais.
+            </p>
+          </GuideSection>
 
           <AnatomySection
             title="Anatomia do RENAVAM"

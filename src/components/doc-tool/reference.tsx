@@ -17,6 +17,27 @@ export function DocsWarning({ children }: { children: React.ReactNode }) {
   );
 }
 
+/**
+ * Bloco de texto corrido (guia editorial) exibido no topo da referência de
+ * cada ferramenta. Recebe parágrafos como filhos e aplica a tipografia padrão.
+ */
+export function GuideSection({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="space-y-3">
+      <SectionLabel>{title}</SectionLabel>
+      <div className="space-y-3 text-sm leading-relaxed text-muted-foreground [&_strong]:font-medium [&_strong]:text-foreground">
+        {children}
+      </div>
+    </div>
+  );
+}
+
 type AnatomySectionProps = {
   title: string;
   sample: string;

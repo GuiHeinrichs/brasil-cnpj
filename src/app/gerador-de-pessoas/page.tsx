@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
-import { DocsWarning, FaqSection } from "@/components/doc-tool/reference";
+import {
+  DocsWarning,
+  FaqSection,
+  GuideSection,
+} from "@/components/doc-tool/reference";
 import { SectionLabel } from "@/components/docs";
 import { JsonLd } from "@/components/json-ld";
 import { PessoaGeneratorPanel } from "@/components/pessoa/panels";
@@ -78,6 +82,36 @@ export default function GeradorDePessoas() {
             software. Os documentos têm dígitos verificadores válidos, mas não
             pertencem a nenhuma pessoa real — não use em sistemas de produção.
           </DocsWarning>
+
+          <GuideSection title="Dados de teste coerentes, não apenas aleatórios">
+            <p>
+              O diferencial de uma ficha de pessoa gerada aqui é a{" "}
+              <strong>coerência interna</strong>: em vez de sortear cada campo de
+              forma isolada, a ferramenta monta um registro em que os dados
+              conversam entre si. Ao escolher um estado, o CPF sai com o nono
+              dígito da região fiscal correta, o CEP cai na faixa oficial daquela
+              UF e a cidade e o DDD acompanham. Isso importa porque muitos
+              sistemas cruzam esses campos, e dados incoerentes fariam a validação
+              falhar por um motivo que não tem a ver com o que você quer testar.
+            </p>
+            <p>
+              Cada ficha reúne nome, CPF, RG, data de nascimento, nome da mãe,
+              e-mail, telefone e endereço completo — o suficiente para preencher um
+              cadastro típico de ponta a ponta. Os documentos usam os mesmos
+              cálculos de dígito verificador dos geradores dedicados, então
+              passam nas rotinas de validação como um registro real passaria, sem
+              corresponder a ninguém.
+            </p>
+            <p>
+              É o tipo de massa de dados ideal para popular ambientes de
+              desenvolvimento e homologação, montar fixtures e seeds, demonstrar
+              telas em apresentações e rodar testes de carga. Usar pessoas
+              fictícias em vez de exportar uma base real de clientes é também uma
+              prática recomendada de proteção de dados: elimina o risco de vazar
+              informação pessoal em ambientes que não têm o mesmo controle da
+              produção.
+            </p>
+          </GuideSection>
 
           <div className="space-y-3">
             <SectionLabel>Documentos da ficha</SectionLabel>

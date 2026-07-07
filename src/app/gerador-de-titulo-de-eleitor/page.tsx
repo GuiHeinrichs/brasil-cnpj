@@ -6,6 +6,7 @@ import {
   AnatomySection,
   DocsWarning,
   FaqSection,
+  GuideSection,
   OfficialLinksSection,
 } from "@/components/doc-tool/reference";
 import { JsonLd } from "@/components/json-ld";
@@ -93,6 +94,37 @@ export default function GeradorDeTituloDeEleitor() {
             exclusivamente a testes de software. Não correspondem a eleitores
             reais.
           </DocsWarning>
+
+          <GuideSection title="Como o título de eleitor é numerado">
+            <p>
+              O título de eleitor é identificado por um número de doze dígitos
+              atribuído pela Justiça Eleitoral no momento do alistamento. Esse
+              número é dividido em três partes: os oito primeiros dígitos são um{" "}
+              <strong>sequencial de inscrição</strong>, os dois seguintes
+              codificam a <strong>unidade da federação</strong> onde o título foi
+              emitido, e os dois últimos são <strong>dígitos verificadores</strong>{" "}
+              calculados por módulo 11. É por isso que, ao gerar um título por
+              estado, os dígitos 9 e 10 mudam conforme a UF escolhida.
+            </p>
+            <p>
+              Não confunda o número do título com a <strong>zona</strong> e a{" "}
+              <strong>seção</strong> eleitorais: essas indicam onde a pessoa vota
+              e não fazem parte do número de inscrição. Vale lembrar também que
+              São Paulo e Minas Gerais, por terem sido os primeiros estados
+              informatizados, seguem uma exceção na regra do dígito verificador —
+              quando o resto do cálculo dá zero, o DV vira 1. Essa é uma pegadinha
+              clássica de qualquer validador de título feito no Brasil.
+            </p>
+            <p>
+              Números de teste são úteis para exercitar cadastros que pedem o
+              título como campo opcional, sistemas de mesários e urnas
+              simuladas, pesquisas eleitorais e qualquer formulário que valide o
+              DV antes de aceitar a inscrição. Como o número real está diretamente
+              associado à identidade civil e política de uma pessoa, testar com
+              dados fictícios é a forma correta de não manipular informação de
+              eleitores verdadeiros.
+            </p>
+          </GuideSection>
 
           <AnatomySection
             title="Anatomia do título"

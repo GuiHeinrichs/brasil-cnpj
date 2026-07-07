@@ -78,8 +78,8 @@ export default function Sobre() {
             uma suíte gratuita de geradores de documentos e dados brasileiros
             fictícios para uso em testes de software. Com ele, desenvolvedores e
             equipes de QA conseguem criar números de CNPJ, CPF, CNH, RG, Título de
-            Eleitor, PIS/PASEP, RENAVAM, placas veiculares, cartões de crédito e
-            CEPs — todos matematicamente válidos, mas sem correspondência com
+            Eleitor, PIS/PASEP, RENAVAM, placas veiculares e CEPs — todos
+            matematicamente válidos, mas sem correspondência com
             registros reais.
           </p>
           <p>

@@ -5,6 +5,7 @@ import {
   AnatomySection,
   DocsWarning,
   FaqSection,
+  GuideSection,
   OfficialLinksSection,
 } from "@/components/doc-tool/reference";
 import { JsonLd } from "@/components/json-ld";
@@ -96,6 +97,36 @@ export default function GeradorDePlaca() {
             exclusivamente a testes de software. Não correspondem a veículos
             emplacados.
           </DocsWarning>
+
+          <GuideSection title="Placa antiga e padrão Mercosul">
+            <p>
+              O Brasil usou por décadas o padrão de placa com{" "}
+              <strong>três letras e quatro números</strong>, exibido com um hífen
+              no formato <code className="font-mono text-foreground">ABC-1234</code>.
+              Desde 2018 as novas placas seguem o <strong>padrão Mercosul</strong>,
+              que troca a quarta posição por uma letra e resulta no formato{" "}
+              <code className="font-mono text-foreground">ABC1D23</code> (letra,
+              letra, letra, número, letra, número, número). O objetivo foi
+              unificar a identificação veicular entre os países do bloco e ampliar
+              a quantidade de combinações possíveis.
+            </p>
+            <p>
+              As duas placas convivem: veículos com placa antiga só passam para o
+              modelo Mercosul em situações específicas, como transferência de
+              município ou de proprietário, então sistemas reais precisam aceitar
+              e validar ambos os formatos. Na conversão, apenas o segundo número —
+              a quinta posição — vira uma letra, seguindo a tabela{" "}
+              <code className="font-mono text-foreground">0=A, 1=B, 2=C … 9=J</code>;
+              as letras iniciais e os demais números permanecem iguais.
+            </p>
+            <p>
+              A placa não tem dígito verificador: a validação se resume a conferir
+              se a sequência bate com um dos dois formatos. Placas fictícias são
+              úteis para testar cadastros de frota, sistemas de estacionamento e
+              pedágio, leitura de OCR, apps de multas e qualquer campo que aplique
+              a máscara de placa — sem usar identificadores de veículos reais.
+            </p>
+          </GuideSection>
 
           <AnatomySection
             title="Anatomia da placa"

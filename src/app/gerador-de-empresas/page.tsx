@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
-import { DocsWarning, FaqSection } from "@/components/doc-tool/reference";
+import {
+  DocsWarning,
+  FaqSection,
+  GuideSection,
+} from "@/components/doc-tool/reference";
 import { SectionLabel } from "@/components/docs";
 import { EmpresaGeneratorPanel } from "@/components/empresa/panels";
 import { JsonLd } from "@/components/json-ld";
@@ -77,6 +81,36 @@ export default function GeradorDeEmpresas() {
             software. O CNPJ tem dígitos verificadores válidos, mas não há
             inscrição na Receita Federal — não use em produção fiscal.
           </DocsWarning>
+
+          <GuideSection title="O que compõe uma ficha de empresa">
+            <p>
+              Uma pessoa jurídica no Brasil é identificada por vários campos que
+              costumam ser confundidos. A <strong>razão social</strong> é o nome
+              oficial registrado, usado em contratos e notas fiscais; o{" "}
+              <strong>nome fantasia</strong> é a marca pela qual o público conhece
+              a empresa, e pode ser diferente da razão social. A{" "}
+              <strong>natureza jurídica</strong> indica o tipo societário — como
+              LTDA, S.A., EIRELI ou MEI —, o que afeta obrigações fiscais e a
+              forma da razão social. O gerador monta esses campos de modo
+              consistente, do jeito que apareceriam em um cadastro real.
+            </p>
+            <p>
+              O <strong>CNPJ</strong> da ficha é gerado com os dígitos
+              verificadores corretos e acompanha um endereço coerente com o estado
+              escolhido: o CEP cai na faixa oficial da UF, e cidade e DDD seguem a
+              mesma lógica. Assim, sistemas que validam o CNPJ e cruzam o endereço
+              recebem um registro que passa nas checagens de formato sem
+              corresponder a nenhuma empresa efetivamente inscrita na Receita.
+            </p>
+            <p>
+              Essa massa de dados serve para testar cadastros de fornecedores e
+              clientes B2B, emissores de nota fiscal em ambiente de homologação,
+              integrações com ERPs e telas administrativas que listam empresas.
+              Trabalhar com pessoas jurídicas fictícias evita usar dados de
+              empresas reais — que, além de exporem terceiros, poderiam disparar
+              rotinas fiscais indevidas em ambientes de teste.
+            </p>
+          </GuideSection>
 
           <div className="space-y-3">
             <SectionLabel>Documentos da ficha</SectionLabel>

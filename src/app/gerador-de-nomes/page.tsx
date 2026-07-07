@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 
-import { DocsWarning, FaqSection } from "@/components/doc-tool/reference";
+import {
+  DocsWarning,
+  FaqSection,
+  GuideSection,
+} from "@/components/doc-tool/reference";
 import { SectionLabel } from "@/components/docs";
 import { JsonLd } from "@/components/json-ld";
 import { NomeGeneratorPanel } from "@/components/nome/panels";
@@ -93,6 +97,26 @@ export default function GeradorDeNomes() {
             destinadas a testes de software. Qualquer coincidência com pessoas
             reais é casual.
           </DocsWarning>
+
+          <GuideSection title="Por que nomes realistas encontram mais bugs">
+            <p>
+              Preencher testes com <code className="font-mono text-foreground">
+              Teste Teste</code> esconde justamente os problemas que só aparecem
+              com nomes de verdade. Nomes brasileiros trazem acentuação e cedilha
+              (Conceição, Muñoz), nomes compostos (Maria Eduarda), partículas em
+              minúsculas (de, da, dos) e sobrenomes longos que quebram larguras de
+              coluna, truncam campos e revelam falhas de ordenação alfabética e de
+              codificação de caracteres. Uma amostra de nomes plausíveis exercita
+              esses casos sem esforço extra.
+            </p>
+            <p>
+              Por isso vale usar nomes verossímeis desde as fases iniciais de
+              desenvolvimento — e não apenas em produção. Eles deixam protótipos e
+              demonstrações mais convincentes e, ao mesmo tempo, servem de entrada
+              para validar campos de nome, buscas e relatórios, tudo sem tocar em
+              dados de pessoas reais.
+            </p>
+          </GuideSection>
 
           <div className="space-y-4">
             <SectionLabel>Como os nomes são gerados</SectionLabel>
