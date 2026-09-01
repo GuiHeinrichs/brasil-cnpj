@@ -126,6 +126,14 @@ export default function GeradorDeRg() {
               correto é a maneira de testar esses formulários sem manipular a
               identidade de pessoas reais.
             </p>
+            <p>
+              O dígito verificador do padrão SSP-SP usa o{" "}
+              <a href="/guias/modulo-11-digito-verificador">
+                algoritmo de módulo 11
+              </a>{" "}
+              — e é por causa dele que alguns RGs terminam em{" "}
+              <code className="font-mono text-foreground">X</code>.
+            </p>
           </GuideSection>
 
           <AnatomySection

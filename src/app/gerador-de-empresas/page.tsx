@@ -110,6 +110,15 @@ export default function GeradorDeEmpresas() {
               empresas reais — que, além de exporem terceiros, poderiam disparar
               rotinas fiscais indevidas em ambientes de teste.
             </p>
+            <p>
+              Prepare-se para a mudança do{" "}
+              <a href="/guias/cnpj-alfanumerico-2026">
+                CNPJ alfanumérico de 2026
+              </a>{" "}
+              e entenda por que trabalhar com{" "}
+              <a href="/guias/lgpd-dados-de-teste">dados fictícios</a> é a prática
+              recomendada em desenvolvimento.
+            </p>
           </GuideSection>
 
           <div className="space-y-3">

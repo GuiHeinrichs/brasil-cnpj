@@ -116,6 +116,13 @@ export default function GeradorDeNomes() {
               para validar campos de nome, buscas e relatórios, tudo sem tocar em
               dados de pessoas reais.
             </p>
+            <p>
+              Usar nomes fictícios faz parte de uma prática maior: veja por que{" "}
+              <a href="/guias/lgpd-dados-de-teste">
+                não se deve usar dados reais em ambientes de teste
+              </a>
+              .
+            </p>
           </GuideSection>
 
           <div className="space-y-4">

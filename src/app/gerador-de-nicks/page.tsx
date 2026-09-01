@@ -121,6 +121,14 @@ export default function GeradorDeNicks() {
               especiais. Gerar dezenas de uma vez cobre esses limites sem precisar
               inventar exemplos um a um.
             </p>
+            <p>
+              Precisa de fichas completas para acompanhar os apelidos? Use o{" "}
+              <a href="/gerador-de-pessoas">gerador de pessoas</a>. E veja{" "}
+              <a href="/guias/lgpd-dados-de-teste">
+                boas práticas de dados de teste
+              </a>{" "}
+              para não usar informação real em desenvolvimento.
+            </p>
           </GuideSection>
 
           <div className="space-y-4">

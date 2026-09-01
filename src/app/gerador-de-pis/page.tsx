@@ -130,6 +130,14 @@ export default function GeradorDePis() {
               recorrer a dados reais de trabalhadores — o que seria uma exposição
               desnecessária de informação pessoal sensível.
             </p>
+            <p>
+              O dígito verificador do PIS é calculado pelo{" "}
+              <a href="/guias/modulo-11-digito-verificador">
+                algoritmo de módulo 11
+              </a>
+              , o mesmo usado em CPF, CNPJ e RENAVAM — muda apenas a sequência de
+              pesos.
+            </p>
           </GuideSection>
 
           <AnatomySection

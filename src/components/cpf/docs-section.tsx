@@ -80,6 +80,21 @@ export function DocsSection() {
           mantê-lo fora de ambientes de desenvolvimento e homologação reduz o
           risco de vazamento de informação de pessoas verdadeiras.
         </p>
+        <p>
+          Quer se aprofundar? Veja como o{" "}
+          <a href="/guias/modulo-11-digito-verificador">
+            dígito verificador é calculado pelo módulo 11
+          </a>
+          , o que o{" "}
+          <a href="/guias/regiao-fiscal-cpf">
+            nono dígito revela sobre o estado
+          </a>{" "}
+          de emissão, e por que{" "}
+          <a href="/guias/lgpd-dados-de-teste">
+            não se deve usar CPF real em ambientes de teste
+          </a>
+          .
+        </p>
       </GuideSection>
 
       <div className="space-y-5">

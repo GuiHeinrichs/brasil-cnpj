@@ -124,6 +124,13 @@ export default function GeradorDeTituloDeEleitor() {
               dados fictícios é a forma correta de não manipular informação de
               eleitores verdadeiros.
             </p>
+            <p>
+              Curioso sobre o cálculo? Os dígitos verificadores do título usam o{" "}
+              <a href="/guias/modulo-11-digito-verificador">
+                algoritmo de módulo 11
+              </a>
+              , com a conhecida exceção de São Paulo e Minas Gerais.
+            </p>
           </GuideSection>
 
           <AnatomySection

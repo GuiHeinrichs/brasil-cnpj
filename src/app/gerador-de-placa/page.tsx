@@ -126,6 +126,14 @@ export default function GeradorDePlaca() {
               pedágio, leitura de OCR, apps de multas e qualquer campo que aplique
               a máscara de placa — sem usar identificadores de veículos reais.
             </p>
+            <p>
+              Quer entender a fundo a diferença entre os dois padrões e a regra
+              de conversão? Leia o guia{" "}
+              <a href="/guias/placa-mercosul-vs-antiga">
+                placa Mercosul e placa antiga
+              </a>
+              .
+            </p>
           </GuideSection>
 
           <AnatomySection

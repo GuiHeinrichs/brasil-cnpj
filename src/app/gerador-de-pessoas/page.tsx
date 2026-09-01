@@ -111,6 +111,15 @@ export default function GeradorDePessoas() {
               informação pessoal em ambientes que não têm o mesmo controle da
               produção.
             </p>
+            <p>
+              Para se aprofundar, veja por que{" "}
+              <a href="/guias/lgpd-dados-de-teste">
+                não usar dados reais em ambientes de teste
+              </a>{" "}
+              e o que o{" "}
+              <a href="/guias/regiao-fiscal-cpf">nono dígito do CPF</a> revela
+              sobre o estado de emissão.
+            </p>
           </GuideSection>
 
           <div className="space-y-3">

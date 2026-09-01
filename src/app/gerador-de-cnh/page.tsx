@@ -121,6 +121,15 @@ export default function GeradorDeCnh() {
               conformidade com a LGPD e evita expor dados de pessoas verdadeiras
               em bases de desenvolvimento.
             </p>
+            <p>
+              Os dois dígitos verificadores do registro seguem o{" "}
+              <a href="/guias/modulo-11-digito-verificador">
+                algoritmo de módulo 11
+              </a>{" "}
+              — o mesmo que valida CPF e CNPJ. E sobre não usar documentos reais
+              em teste, veja o guia{" "}
+              <a href="/guias/lgpd-dados-de-teste">LGPD e dados de teste</a>.
+            </p>
           </GuideSection>
 
           <AnatomySection

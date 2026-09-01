@@ -31,7 +31,7 @@ export function GuideSection({
   return (
     <div className="space-y-3">
       <SectionLabel>{title}</SectionLabel>
-      <div className="space-y-3 text-sm leading-relaxed text-muted-foreground [&_strong]:font-medium [&_strong]:text-foreground">
+      <div className="space-y-3 text-sm leading-relaxed text-muted-foreground [&_strong]:font-medium [&_strong]:text-foreground [&_a]:text-primary [&_a]:underline [&_a]:underline-offset-4 hover:[&_a]:text-primary/80">
         {children}
       </div>
     </div>

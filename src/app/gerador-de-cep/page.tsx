@@ -140,6 +140,15 @@ export default function GeradorDeCep() {
               validações de formato e de estado sem precisar apontar para um
               endereço real de uma pessoa.
             </p>
+            <p>
+              Para montar endereços de teste completos e coerentes por estado,
+              use o <a href="/gerador-de-pessoas">gerador de pessoas</a>; e veja
+              por que trabalhar com{" "}
+              <a href="/guias/lgpd-dados-de-teste">
+                dados fictícios em vez de reais
+              </a>{" "}
+              é a prática recomendada em desenvolvimento.
+            </p>
           </GuideSection>
 
           <AnatomySection

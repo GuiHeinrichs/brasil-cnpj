@@ -122,6 +122,17 @@ export default function GeradorDeRenavam() {
               fictícios com DV correto permite popular esses cadastros e testar as
               máscaras de entrada sem usar dados de veículos reais.
             </p>
+            <p>
+              O dígito verificador do RENAVAM segue o{" "}
+              <a href="/guias/modulo-11-digito-verificador">
+                algoritmo de módulo 11
+              </a>
+              . Para o outro identificador do veículo, veja o guia sobre a{" "}
+              <a href="/guias/placa-mercosul-vs-antiga">
+                placa Mercosul e a placa antiga
+              </a>
+              .
+            </p>
           </GuideSection>
 
           <AnatomySection

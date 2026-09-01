@@ -102,6 +102,18 @@ export function DocsSection() {
           preparar essas rotinas com antecedência sem depender de números de
           empresas reais.
         </p>
+        <p>
+          Para se aprofundar, leia o{" "}
+          <a href="/guias/cnpj-alfanumerico-2026">
+            guia completo do CNPJ alfanumérico de 2026
+          </a>{" "}
+          — com o que muda no banco de dados, nas validações e no cálculo do
+          dígito — e entenda o{" "}
+          <a href="/guias/modulo-11-digito-verificador">
+            algoritmo de módulo 11
+          </a>{" "}
+          que valida o documento.
+        </p>
       </GuideSection>
 
       <div className="space-y-5">
