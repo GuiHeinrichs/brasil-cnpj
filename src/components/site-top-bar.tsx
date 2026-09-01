@@ -17,8 +17,14 @@ export function SiteTopBar() {
           bateCarimbo<span className="-ml-1 text-primary">.</span>
         </Link>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           <GeneratorsMenu />
+          <Link
+            href="/guias"
+            className="hidden font-mono text-xs text-muted-foreground underline-offset-4 hover:text-foreground hover:underline sm:block"
+          >
+            Guias
+          </Link>
           <Link
             href="/sobre"
             className="hidden font-mono text-xs text-muted-foreground underline-offset-4 hover:text-foreground hover:underline sm:block"
