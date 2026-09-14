@@ -2,11 +2,14 @@ import type { Metadata } from "next";
 import { ArrowRightIcon, ChevronRightIcon } from "lucide-react";
 import Link from "next/link";
 
+import { AuthorBox } from "@/components/guias/author-box";
 import { Prose } from "@/components/guias/prose";
+import { SourcesSection } from "@/components/guias/sources-section";
 import { JsonLd } from "@/components/json-ld";
 import { SiteFooter } from "@/components/site-footer";
 import { type Guide, otherGuides } from "@/lib/guias";
-import { SITE_NAME, SITE_URL } from "@/lib/site";
+import { AUTHOR_ID, authorJsonLd } from "@/lib/schema";
+import { AUTHOR, SITE_NAME, SITE_URL } from "@/lib/site";
 
 /** Metadata (title/description/canonical/OG/Twitter) a partir de um guia. */
 export function guideMetadata(guide: Guide): Metadata {
@@ -15,6 +18,7 @@ export function guideMetadata(guide: Guide): Metadata {
     title: guide.title,
     description: guide.description,
     alternates: { canonical: path },
+    authors: [{ name: AUTHOR.name, url: `${SITE_URL}${AUTHOR.path}` }],
     openGraph: {
       type: "article",
       url: path,
@@ -22,6 +26,9 @@ export function guideMetadata(guide: Guide): Metadata {
       locale: "pt_BR",
       title: guide.title,
       description: guide.description,
+      publishedTime: guide.published,
+      modifiedTime: guide.updated,
+      authors: [`${SITE_URL}${AUTHOR.path}`],
     },
     twitter: {
       card: "summary_large_image",
@@ -41,8 +48,9 @@ function formatDate(iso: string): string {
 }
 
 /**
- * Shell de página de um guia: breadcrumb + cabeçalho + JSON-LD (Article +
- * BreadcrumbList), o corpo em `Prose`, ferramentas relacionadas e outros guias.
+ * Shell de página de um guia: breadcrumb + cabeçalho com assinatura + JSON-LD
+ * (TechArticle assinado por Person + BreadcrumbList), o corpo em `Prose`,
+ * fontes oficiais, box do autor, ferramentas relacionadas e outros guias.
  */
 export function ArticleLayout({
   guide,
@@ -52,6 +60,7 @@ export function ArticleLayout({
   children: React.ReactNode;
 }) {
   const url = `${SITE_URL}/guias/${guide.slug}`;
+  const wasRevised = guide.updated !== guide.published;
 
   const articleJsonLd = {
     "@context": "https://schema.org",
@@ -59,15 +68,22 @@ export function ArticleLayout({
     headline: guide.title,
     description: guide.description,
     inLanguage: "pt-BR",
-    datePublished: guide.updated,
+    datePublished: guide.published,
     dateModified: guide.updated,
     mainEntityOfPage: { "@type": "WebPage", "@id": url },
-    author: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
+    author: authorJsonLd,
+    creator: { "@id": AUTHOR_ID },
     publisher: {
       "@type": "Organization",
       name: SITE_NAME,
+      url: SITE_URL,
       logo: { "@type": "ImageObject", url: `${SITE_URL}/icon.svg` },
     },
+    citation: guide.sources.map((source) => ({
+      "@type": "CreativeWork",
+      name: source.label,
+      url: source.href,
+    })),
   };
 
   const breadcrumbJsonLd = {
@@ -116,14 +132,38 @@ export function ArticleLayout({
         <h1 className="text-balance text-2xl font-medium tracking-tight sm:text-3xl">
           {guide.title}
         </h1>
-        <p className="font-mono text-[11px] text-muted-foreground">
-          Atualizado em {formatDate(guide.updated)} · {guide.minutes} min de leitura
+        <p className="text-sm leading-relaxed text-muted-foreground">
+          {guide.description}
+        </p>
+        <p className="font-mono text-[11px] leading-relaxed text-muted-foreground">
+          Por{" "}
+          <Link
+            href={AUTHOR.path}
+            rel="author"
+            className="text-foreground underline-offset-4 hover:underline"
+          >
+            {AUTHOR.name}
+          </Link>{" "}
+          · Publicado em{" "}
+          <time dateTime={guide.published}>{formatDate(guide.published)}</time>
+          {wasRevised && (
+            <>
+              {" "}
+              · Revisado em{" "}
+              <time dateTime={guide.updated}>{formatDate(guide.updated)}</time>
+            </>
+          )}{" "}
+          · {guide.minutes} min de leitura
         </p>
       </header>
 
       <article className="mt-8">
         <Prose>{children}</Prose>
       </article>
+
+      <SourcesSection sources={guide.sources} />
+
+      <AuthorBox />
 
       {guide.related.length > 0 && (
         <div className="mt-12 space-y-3">

@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+
 import { DocsSection } from "@/components/cnpj/docs-section";
 import { FormatterPanel } from "@/components/cnpj/formatter-panel";
 import { GeneratorPanel } from "@/components/cnpj/generator-panel";
@@ -9,14 +11,40 @@ import { ToolsSection } from "@/components/tools-section";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MAX_BATCH_SIZE } from "@/lib/cnpj";
 import { CNPJ_FAQ } from "@/lib/faq";
-import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
+import { SITE_NAME, SITE_URL } from "@/lib/site";
+
+const PAGE_TITLE = "Gerador de CNPJ numérico e alfanumérico para testes";
+const PAGE_DESCRIPTION = `Gere CNPJs com dígitos verificadores corretos nos formatos numérico e alfanumérico, em lotes de até ${MAX_BATCH_SIZE}. Valide, aplique ou remova a máscara e entenda raiz, ordem e o cálculo do DV.`;
+
+export const metadata: Metadata = {
+  // O template `%s | bateCarimbo` do layout não se aplica ao segmento raiz,
+  // então a marca entra explicitamente aqui.
+  title: `${PAGE_TITLE} | ${SITE_NAME}`,
+  description: PAGE_DESCRIPTION,
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    url: "/",
+    siteName: SITE_NAME,
+    locale: "pt_BR",
+    title: PAGE_TITLE,
+    description: PAGE_DESCRIPTION,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: PAGE_TITLE,
+    description: PAGE_DESCRIPTION,
+  },
+};
 
 const webApplicationJsonLd = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
   name: SITE_NAME,
   url: SITE_URL,
-  description: SITE_DESCRIPTION,
+  description: PAGE_DESCRIPTION,
   applicationCategory: "DeveloperApplication",
   operatingSystem: "Web",
   inLanguage: "pt-BR",
@@ -48,8 +76,17 @@ export default function Home() {
 
       <SiteHeader
         active="cnpj"
-        badge="Novo formato alfanumérico"
-        heading="Gerador de CNPJ numérico e alfanumérico — com validador, formatador e geração em lote para testes de software."
+        badge="Numérico e alfanumérico · módulo 11"
+        heading="Gerador de CNPJ (numérico e alfanumérico)"
+        lead={
+          <>
+            Monta CNPJs com os dois dígitos verificadores corretos nos dois
+            formatos, em lotes de até {MAX_BATCH_SIZE}. As abas de validador e
+            formatador trabalham sobre números que você já tem: conferem o DV,
+            aplicam a máscara <code className="font-mono">00.000.000/0000-00</code>{" "}
+            ou a removem.
+          </>
+        }
       />
 
       <Tabs defaultValue="generator" className="mt-8 w-full">

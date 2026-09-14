@@ -7,8 +7,8 @@ export const TOOL_CATEGORIES = [
   },
   {
     id: "dados",
-    label: "Pessoas & Empresas",
-    hint: "Dados fictícios completos",
+    label: "Pessoas & Dados",
+    hint: "Fichas completas, nomes e usernames",
   },
   { id: "veiculos", label: "Veículos", hint: "RENAVAM e placas" },
   { id: "outros", label: "Outros", hint: "CEP por faixa oficial" },
@@ -24,7 +24,7 @@ export const TOOLS = [
     name: "Gerador de CNPJ",
     href: "/",
     category: "documentos",
-    blurb: "Numérico e alfanumérico (novo formato 2026), com validador e formatador.",
+    blurb: "Numérico e alfanumérico (em vigor desde jul/2026), com validador e formatador.",
   },
   {
     id: "cpf",

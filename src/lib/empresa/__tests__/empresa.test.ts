@@ -13,7 +13,7 @@ describe("Empresa", () => {
     for (const empresa of empresas) {
       expect(validateCnpj(empresa.cnpj).valid).toBe(true);
       expect(ufOf(stripCep(empresa.cep))?.uf).toBe("PR");
-      expect(empresa.razaoSocial).toMatch(/(LTDA|ME|EIRELI|S\.A\.|EPP)$/);
+      expect(empresa.razaoSocial).toMatch(/(LTDA|S\.A\.|EI)$/);
       expect(empresa.email).toContain("@");
     }
   });
@@ -23,6 +23,7 @@ describe("Empresa", () => {
     const labels = record.fields.map((field) => field.label);
     expect(labels).toContain("CNPJ");
     expect(labels).toContain("Natureza jurídica");
+    expect(labels).toContain("Porte");
   });
 
   it("limita o lote a 25", () => {

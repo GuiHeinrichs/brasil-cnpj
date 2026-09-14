@@ -11,7 +11,7 @@ export default function Image() {
   return new ImageResponse(
     (
       <OgCard
-        badge="NOVO FORMATO ALFANUMÉRICO · JUL/2026"
+        badge="ALFANUMÉRICO EM VIGOR DESDE JULHO DE 2026"
         subtitle="Gerador de CNPJ válido — numérico e alfanumérico"
         sample={[
           { text: "12.ABC.345", color: ink.foreground },

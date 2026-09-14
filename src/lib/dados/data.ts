@@ -53,9 +53,16 @@ export const NEIGHBORHOODS = [
   "Nova Esperança", "Vila Operária", "Parque Industrial",
 ] as const;
 
+/**
+ * Domínios usados nos e-mails fictícios. São domínios reservados pela IANA para
+ * documentação e testes (RFC 2606 e RFC 6761): nenhum deles recebe mensagem de
+ * verdade, então uma rotina de envio disparada por engano em homologação não
+ * atinge ninguém. Usar provedores reais criaria endereços que podem pertencer a
+ * pessoas de verdade.
+ */
 export const EMAIL_DOMAINS = [
-  "gmail.com", "hotmail.com", "outlook.com", "yahoo.com.br", "icloud.com",
-  "bol.com.br", "uol.com.br", "terra.com.br",
+  "example.com", "example.org", "example.net",
+  "teste.example", "exemplo.test", "mail.invalid",
 ] as const;
 
 /** Cidades por UF (capital + principais), para coerência com o CEP. */
@@ -121,12 +128,24 @@ export const COMPANY_SECTORS = [
   "Empreendimentos", "Materiais", "Equipamentos",
 ] as const;
 
+/**
+ * Naturezas jurídicas usadas nas fichas de empresa. A EIRELI foi extinta pela
+ * Lei 14.195/2021 — as existentes foram transformadas em sociedades limitadas
+ * unipessoais —, por isso não aparece aqui. Microempresa e empresa de pequeno
+ * porte não são natureza jurídica e sim porte: ficam em COMPANY_SIZES.
+ */
 export const COMPANY_LEGAL_TYPES = [
   { suffix: "LTDA", nature: "Sociedade Empresária Limitada" },
-  { suffix: "ME", nature: "Microempresa" },
-  { suffix: "EIRELI", nature: "Empresa Individual de Resp. Limitada" },
-  { suffix: "S.A.", nature: "Sociedade Anônima" },
-  { suffix: "EPP", nature: "Empresa de Pequeno Porte" },
+  { suffix: "LTDA", nature: "Sociedade Limitada Unipessoal" },
+  { suffix: "S.A.", nature: "Sociedade Anônima Fechada" },
+  { suffix: "EI", nature: "Empresário Individual" },
+] as const;
+
+/** Porte da empresa — classificação por faturamento, independente do tipo societário. */
+export const COMPANY_SIZES = [
+  "Microempresa (ME)",
+  "Empresa de Pequeno Porte (EPP)",
+  "Demais",
 ] as const;
 
 export const FANTASY_PREFIXES = [

@@ -3,11 +3,11 @@ import Link from "next/link";
 
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
-import { CONTACT_EMAIL, SITE_NAME, SITE_URL } from "@/lib/site";
+import { AUTHOR, CONTACT_EMAIL, SITE_NAME, SITE_URL } from "@/lib/site";
 
 const PAGE_TITLE = "Termos de Uso";
 const PAGE_DESCRIPTION = `Termos e condições de uso do ${SITE_NAME}: finalidade exclusiva para testes de software, responsabilidades e limitações.`;
-const LAST_UPDATED = "24 de junho de 2026";
+const LAST_UPDATED = "14 de setembro de 2026";
 
 export const metadata: Metadata = {
   title: PAGE_TITLE,
@@ -26,14 +26,16 @@ export const metadata: Metadata = {
 };
 
 function Section({
+  id,
   title,
   children,
 }: {
+  id?: string;
   title: string;
   children: React.ReactNode;
 }) {
   return (
-    <section className="space-y-3">
+    <section id={id} className="scroll-mt-24 space-y-3">
       <h2 className="text-lg font-medium tracking-tight">{title}</h2>
       <div className="space-y-3 text-sm leading-relaxed text-muted-foreground">
         {children}
@@ -66,6 +68,15 @@ export default function Termos() {
             ), você concorda com estes Termos de Uso. Se não concordar com
             qualquer disposição, não utilize a ferramenta.
           </p>
+          <p>
+            O site é mantido por{" "}
+            <strong className="font-medium text-foreground">
+              {AUTHOR.name}
+            </strong>
+            , pessoa física, sem vínculo com a Receita Federal, o SERPRO ou
+            qualquer outro órgão público mencionado nas páginas. Ao longo deste
+            texto, &ldquo;nós&rdquo; se refere a esse responsável.
+          </p>
         </Section>
 
         <Section title="2. Descrição do serviço">
@@ -85,7 +96,7 @@ export default function Termos() {
           </p>
         </Section>
 
-        <Section title="3. Finalidade permitida">
+        <Section id="uso-permitido" title="3. Finalidade permitida">
           <p>
             O uso do {SITE_NAME} é permitido para:
           </p>
@@ -110,7 +121,7 @@ export default function Termos() {
           </ul>
         </Section>
 
-        <Section title="4. Usos proibidos">
+        <Section id="usos-proibidos" title="4. Usos proibidos">
           <p>
             É{" "}
             <strong className="font-medium text-foreground">
@@ -149,25 +160,31 @@ export default function Termos() {
         <Section title="5. Ausência de garantias">
           <p>
             O {SITE_NAME} é fornecido{" "}
-            <strong className="font-medium text-foreground">"no estado em que se encontra"</strong>{" "}
+            <strong className="font-medium text-foreground">&ldquo;no estado em que se encontra&rdquo;</strong>{" "}
             (as-is), sem garantias expressas ou implícitas de qualquer natureza,
             incluindo adequação a uma finalidade específica, precisão ou
             disponibilidade contínua.
           </p>
           <p>
             Os documentos gerados seguem os algoritmos oficiais publicados pelos
-            órgãos competentes (Receita Federal, SERPRO, DENATRAN, TSE, etc.),
-            mas a conformidade com futuras alterações normativas não é
+            órgãos competentes (Receita Federal, SERPRO, SENATRAN, TSE, entre
+            outros), mas a conformidade com futuras alterações normativas não é
             garantida.
           </p>
         </Section>
 
         <Section title="6. Limitação de responsabilidade">
           <p>
-            Os mantenedores do {SITE_NAME} não se responsabilizam por danos
-            diretos, indiretos, incidentais ou consequenciais decorrentes do uso
-            ou da impossibilidade de uso da ferramenta, incluindo, sem
-            limitação, danos decorrentes do uso indevido dos dados gerados.
+            {AUTHOR.name}, responsável pelo {SITE_NAME}, não se responsabiliza
+            por danos diretos, indiretos, incidentais ou consequenciais
+            decorrentes do uso ou da impossibilidade de uso da ferramenta,
+            incluindo, sem limitação, danos decorrentes do uso indevido dos
+            dados gerados.
+          </p>
+          <p>
+            Como o site não tem servidor de aplicação próprio e nada do que você
+            gera é transmitido, a responsabilidade sobre o destino dos números
+            gerados é de quem os copia.
           </p>
         </Section>
 
@@ -203,7 +220,26 @@ export default function Termos() {
           </p>
         </Section>
 
-        <Section title="9. Alterações nos termos">
+        <Section title="9. Anúncios de terceiros e links externos">
+          <p>
+            As páginas exibem anúncios servidos pelo Google AdSense. O conteúdo
+            desses anúncios é escolhido pelo Google e seus parceiros, não por
+            nós: não endossamos os produtos, serviços ou empresas anunciados nem
+            respondemos por negociações fechadas com eles. Reclamações sobre um
+            anúncio específico devem ser dirigidas ao anunciante ou ao próprio
+            Google.
+          </p>
+          <p>
+            As ferramentas e os guias citam páginas de órgãos públicos e de
+            terceiros como referência. Esses endereços mudam e saem do ar sem
+            aviso, e o conteúdo deles está fora do nosso controle — o texto legal
+            que vale é sempre o publicado na fonte oficial, não a nossa
+            explicação. Se encontrar um link quebrado ou desatualizado, avise
+            pelo contato abaixo.
+          </p>
+        </Section>
+
+        <Section title="10. Alterações nos termos">
           <p>
             Estes Termos podem ser atualizados a qualquer momento. A data da
             última revisão é indicada no topo desta página. O uso continuado
@@ -211,7 +247,7 @@ export default function Termos() {
           </p>
         </Section>
 
-        <Section title="10. Lei aplicável">
+        <Section title="11. Lei aplicável">
           <p>
             Estes Termos são regidos pela legislação brasileira. Eventuais
             disputas serão submetidas ao foro da comarca de Porto Alegre — RS,
@@ -219,7 +255,7 @@ export default function Termos() {
           </p>
         </Section>
 
-        <Section title="11. Contato">
+        <Section title="12. Contato">
           <p>
             Dúvidas sobre estes Termos podem ser enviadas para{" "}
             <Link
@@ -228,7 +264,15 @@ export default function Termos() {
             >
               {CONTACT_EMAIL}
             </Link>
-            .
+            . A página de{" "}
+            <Link
+              href="/contato"
+              className="text-foreground underline underline-offset-4 hover:text-foreground/80"
+            >
+              contato
+            </Link>{" "}
+            lista os demais canais, incluindo o repositório para relatar erros
+            de cálculo ou de conteúdo.
           </p>
         </Section>
       </div>

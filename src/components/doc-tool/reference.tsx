@@ -3,6 +3,7 @@ import { ExternalLinkIcon, TriangleAlertIcon } from "lucide-react";
 import { SectionLabel } from "@/components/docs";
 import { DocText } from "@/components/doc-tool/doc-text";
 import type { DocSegment } from "@/components/doc-tool/doc-text";
+import { WorkedDvTable, type WorkedDvStep } from "@/components/guias/worked-table";
 import { cn } from "@/lib/utils";
 
 export function DocsWarning({ children }: { children: React.ReactNode }) {
@@ -18,8 +19,9 @@ export function DocsWarning({ children }: { children: React.ReactNode }) {
 }
 
 /**
- * Bloco de texto corrido (guia editorial) exibido no topo da referência de
- * cada ferramenta. Recebe parágrafos como filhos e aplica a tipografia padrão.
+ * Bloco de texto corrido (guia editorial) da referência de cada ferramenta.
+ * Usa H2 de verdade e corpo com o mesmo peso dos artigos — o conteúdo editorial
+ * é parte principal da página, não legenda.
  */
 export function GuideSection({
   title,
@@ -29,12 +31,14 @@ export function GuideSection({
   children: React.ReactNode;
 }) {
   return (
-    <div className="space-y-3">
-      <SectionLabel>{title}</SectionLabel>
-      <div className="space-y-3 text-sm leading-relaxed text-muted-foreground [&_strong]:font-medium [&_strong]:text-foreground [&_a]:text-primary [&_a]:underline [&_a]:underline-offset-4 hover:[&_a]:text-primary/80">
+    <section className="space-y-3">
+      <h2 className="text-lg font-medium tracking-tight text-foreground">
+        {title}
+      </h2>
+      <div className="space-y-4 text-[15px] leading-relaxed text-muted-foreground [&_h3]:mt-6 [&_h3]:mb-2 [&_h3]:text-base [&_h3]:font-semibold [&_h3]:text-foreground [&_strong]:font-medium [&_strong]:text-foreground [&_a]:text-primary [&_a]:underline [&_a]:underline-offset-4 hover:[&_a]:text-primary/80 [&_ul]:list-disc [&_ul]:space-y-1.5 [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:space-y-1.5 [&_ol]:pl-5 [&_code]:rounded [&_code]:bg-muted/60 [&_code]:px-1 [&_code]:py-0.5 [&_code]:font-mono [&_code]:text-[0.9em] [&_code]:text-foreground">
         {children}
       </div>
-    </div>
+    </section>
   );
 }
 
@@ -96,13 +100,31 @@ export function AnatomySection({
   );
 }
 
+/** Um dígito verificador resolvido: linhas da conta, soma, resto e regra. */
+export type WorkedDv = {
+  title: string;
+  steps: WorkedDvStep[];
+  sum: number;
+  remainder: number;
+  rule: string;
+  result: string;
+  showValueColumn?: boolean;
+};
+
 type AlgorithmSectionProps = {
   intro: React.ReactNode;
   steps: React.ReactNode[];
+  /** Contas resolvidas, exibidas como tabela dígito × peso × produto. */
+  worked?: WorkedDv[];
   note?: React.ReactNode;
 };
 
-export function AlgorithmSection({ intro, steps, note }: AlgorithmSectionProps) {
+export function AlgorithmSection({
+  intro,
+  steps,
+  worked,
+  note,
+}: AlgorithmSectionProps) {
   return (
     <div className="space-y-3">
       <SectionLabel>Exemplo — cálculo do DV</SectionLabel>
@@ -112,6 +134,18 @@ export function AlgorithmSection({ intro, steps, note }: AlgorithmSectionProps) 
           <li key={index}>{step}</li>
         ))}
       </ol>
+      {worked?.map((dv) => (
+        <WorkedDvTable
+          key={dv.title}
+          title={dv.title}
+          steps={dv.steps}
+          sum={dv.sum}
+          remainder={dv.remainder}
+          rule={dv.rule}
+          result={dv.result}
+          showValueColumn={dv.showValueColumn}
+        />
+      ))}
       {note && <p className="text-sm text-muted-foreground">{note}</p>}
     </div>
   );
@@ -120,7 +154,7 @@ export function AlgorithmSection({ intro, steps, note }: AlgorithmSectionProps) 
 export function FaqSection({
   items,
 }: {
-  items: readonly { question: string; answer: string }[];
+  items: readonly { question: string; answer: React.ReactNode }[];
 }) {
   return (
     <div className="space-y-4">
@@ -129,7 +163,9 @@ export function FaqSection({
         {items.map((item) => (
           <div key={item.question} className="rounded-xl border bg-card p-4">
             <h3 className="text-sm font-semibold">{item.question}</h3>
-            <p className="mt-2 text-sm text-muted-foreground">{item.answer}</p>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+              {item.answer}
+            </p>
           </div>
         ))}
       </div>

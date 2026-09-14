@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 
-import { ADSENSE_CLIENT, AD_SLOTS, type AdSlotName } from "@/lib/ads";
+import { ADSENSE_CLIENT, AD_SLOTS, isAdSlotLive, type AdSlotName } from "@/lib/ads";
 import { cn } from "@/lib/utils";
 
 declare global {
@@ -12,10 +12,16 @@ declare global {
 }
 
 /**
- * Espaço de anúncio do AdSense. Reserva as dimensões finais (evita layout
- * shift). Quando ADSENSE_CLIENT e o slot correspondente estão configurados,
- * renderiza o bloco real <ins class="adsbygoogle" …/>; caso contrário mostra um
- * placeholder "Publicidade" (útil em dev e antes da aprovação do Google).
+ * Espaço de anúncio do AdSense.
+ *
+ * - Quando ADSENSE_CLIENT e o slot correspondente estão configurados, renderiza
+ *   o bloco real <ins class="adsbygoogle" …/> com as dimensões finais (evita
+ *   layout shift).
+ * - Quando o slot ainda não existe, NÃO renderiza nada em produção: uma caixa
+ *   vazia rotulada "Publicidade" passa a impressão de site inacabado (motivo
+ *   de reprovação "conteúdo de baixo valor / em construção" no AdSense).
+ *   Apenas em desenvolvimento mostra um placeholder discreto para conferir o
+ *   layout.
  */
 const VARIANTS = {
   /** Banner horizontal — topo/rodapé de conteúdo (728×90 / responsivo). */
@@ -27,6 +33,8 @@ const VARIANTS = {
 } as const;
 
 export type AdVariant = keyof typeof VARIANTS;
+
+const SHOW_DEV_PLACEHOLDER = process.env.NODE_ENV === "development";
 
 export function AdSlot({
   variant,
@@ -40,7 +48,11 @@ export function AdSlot({
 }) {
   const { box, format } = VARIANTS[variant];
   const adSlotId = AD_SLOTS[slot];
-  const isLive = Boolean(ADSENSE_CLIENT && adSlotId);
+  const isLive = isAdSlotLive(slot);
+
+  if (!isLive && !SHOW_DEV_PLACEHOLDER) {
+    return null;
+  }
 
   return (
     <div
@@ -57,7 +69,7 @@ export function AdSlot({
         <AdUnit adSlotId={adSlotId} format={format} />
       ) : (
         <span className="font-mono text-[10px] tracking-widest text-muted-foreground/50 uppercase">
-          Publicidade
+          Publicidade (dev)
         </span>
       )}
     </div>

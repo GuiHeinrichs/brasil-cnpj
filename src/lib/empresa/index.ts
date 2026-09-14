@@ -7,6 +7,7 @@ import {
   clampCount,
   COMPANY_LEGAL_TYPES,
   COMPANY_SECTORS,
+  COMPANY_SIZES,
   FANTASY_PREFIXES,
   FANTASY_SUFFIXES,
   maybe,
@@ -24,6 +25,8 @@ export type Empresa = {
   nomeFantasia: string;
   cnpj: string;
   naturezaJuridica: string;
+  /** Porte por faixa de faturamento — independente da natureza jurídica. */
+  porte: string;
   dataAbertura: string;
   email: string;
   telefone: string;
@@ -62,8 +65,9 @@ function generateOne(uf: string | undefined): Empresa {
     nomeFantasia,
     cnpj: generateCnpj({ format: "numeric", count: 1, formatted: true })[0],
     naturezaJuridica: legal.nature,
+    porte: pick(COMPANY_SIZES),
     dataAbertura: buildPastDate(1990, currentYear - 1),
-    email: `contato@${slugify(nomeFantasia)}.com.br`,
+    email: `contato@${slugify(nomeFantasia)}.example.com`,
     telefone: buildLandlinePhone(resolvedUf),
     cep: generateCep({ count: 1, formatted: true, uf: resolvedUf })[0],
     endereco: buildAddress(resolvedUf),
@@ -86,6 +90,7 @@ export function empresaToRecord(empresa: Empresa): GeneratedRecord {
       { label: "Nome fantasia", value: empresa.nomeFantasia },
       { label: "CNPJ", value: empresa.cnpj, mono: true },
       { label: "Natureza jurídica", value: empresa.naturezaJuridica },
+      { label: "Porte", value: empresa.porte },
       { label: "Abertura", value: empresa.dataAbertura },
       { label: "E-mail", value: empresa.email, mono: true },
       { label: "Telefone", value: empresa.telefone, mono: true },

@@ -9,6 +9,7 @@ import {
   GuideSection,
   OfficialLinksSection,
 } from "@/components/doc-tool/reference";
+import { CodeBlock } from "@/components/guias/code-block";
 import { JsonLd } from "@/components/json-ld";
 import {
   RgFormatterPanel,
@@ -24,9 +25,18 @@ import { MAX_BATCH_SIZE, RG_LENGTH, RG_MASKED_REGEX, RG_REGEX } from "@/lib/rg";
 import { SITE_NAME } from "@/lib/site";
 import { faqJsonLd, toolJsonLd } from "@/lib/structured-data";
 
-const PAGE_TITLE = "Gerador de RG válido — padrão SSP-SP em lote para testes";
+const PAGE_TITLE = "Gerador de RG (padrão SSP-SP) com validador de dígito";
 const PAGE_DESCRIPTION =
-  "Gere números de RG (padrão SSP-SP) válidos para testes, grátis e em lote. Valide o dígito verificador (módulo 11) e aplique ou remova a máscara 00.000.000-0.";
+  "Gere RGs fictícios no padrão SSP-SP com dígito verificador correto, inclusive os terminados em X, e valide ou formate a máscara 00.000.000-0 para testes.";
+
+/** Modelagem do campo em banco — mostrada na seção sobre como guardar o RG. */
+const RG_SCHEMA_SQL = `-- Errado: descarta zeros à esquerda e não comporta o DV "X"
+rg              numeric(9),
+
+-- Certo: texto normalizado, mais a origem do documento
+rg_numero       varchar(20) not null,   -- normalizado: 245989730, sem pontuação
+rg_orgao        varchar(20),            -- SSP, DETRAN, Marinha, PF, OAB...
+rg_uf           char(2)                 -- sem isto não dá para escolher o algoritmo`;
 
 export const metadata: Metadata = {
   title: PAGE_TITLE,
@@ -69,7 +79,8 @@ export default function GeradorDeRg() {
       <SiteHeader
         active="rg"
         badge="Padrão SSP-SP · módulo 11"
-        heading="Gerador de RG válido — com validador, formatador e geração em lote para testes de software."
+        heading="Gerador de RG (padrão SSP-SP)"
+        lead="Oito dígitos de base e um verificador por módulo 11, como a Secretaria de Segurança Pública de São Paulo numera. Gere em lote, confira RGs que você já tem e aplique ou remova a máscara 00.000.000-0."
       />
 
       <Tabs defaultValue="generator" className="mt-8 w-full">
@@ -102,38 +113,87 @@ export default function GeradorDeRg() {
 
           <GuideSection title="Por que o RG não tem um padrão único">
             <p>
-              Ao contrário do CPF, o Registro Geral não é nacional: cada estado
-              emite o RG pela sua Secretaria de Segurança Pública, com numeração,
-              tamanho e regra de dígito verificador próprios. Uma pessoa pode
-              inclusive ter mais de um RG, emitido em estados diferentes. Isso faz
-              com que não exista uma fórmula única de validação — o número que é
-              válido em São Paulo pode não seguir a regra de outro estado.
+              O Registro Geral nasce em um instituto de identificação estadual,
+              não em um cadastro federal. Cada Secretaria de Segurança Pública
+              mantém a própria série de numeração, decide quantos dígitos ela tem
+              e se haverá dígito verificador — parte dos estados usa, parte não.
+              Não existe, portanto, uma função única de validação de RG que valha
+              para o país inteiro: existe uma regra por unidade federativa, e para
+              várias delas a única checagem possível é o comprimento.
             </p>
+
+            <h3>O padrão SSP-SP, adotado aqui</h3>
             <p>
-              Esta ferramenta adota o <strong>padrão da SSP-SP</strong>, o mais
-              difundido e o que a maioria dos validadores online implementa: oito
-              dígitos de base mais um dígito verificador calculado por módulo 11,
-              que pode assumir os valores de 0 a 9 ou <strong>X</strong> quando o
-              resultado é 10. A máscara usual de exibição é{" "}
-              <code className="font-mono text-foreground">00.000.000-0</code>.
-            </p>
-            <p>
-              Vale registrar que o RG está sendo gradualmente substituído pela{" "}
-              <strong>CIN</strong> (Carteira de Identidade Nacional), que unifica o
-              documento em todo o país usando o número do CPF como identificador.
-              Enquanto a transição não termina, o RG no formato SSP-SP continua
-              amplamente pedido em cadastros — e gerar números fictícios com DV
-              correto é a maneira de testar esses formulários sem manipular a
-              identidade de pessoas reais.
-            </p>
-            <p>
-              O dígito verificador do padrão SSP-SP usa o{" "}
+              Esta página gera e valida na convenção de São Paulo: oito dígitos de
+              base e um verificador calculado por módulo 11 com os pesos 2 a 9,
+              exibido na máscara{" "}
+              <code>00.000.000-0</code>. A escolha não é arbitrária — é a
+              convenção que a maioria dos validadores em circulação implementa, e
+              por isso a que um número fictício precisa satisfazer para atravessar
+              um formulário de teste. O verificador sai como algarismo de 0 a 9 ou
+              como a letra <code>X</code>, quando a conta resulta em 10. O passo a
+              passo do cálculo, com o tratamento de cada resto possível, está no
+              guia{" "}
               <a href="/guias/modulo-11-digito-verificador">
-                algoritmo de módulo 11
-              </a>{" "}
-              — e é por causa dele que alguns RGs terminam em{" "}
-              <code className="font-mono text-foreground">X</code>.
+                módulo 11 explicado
+              </a>
+              .
             </p>
+
+            <h3>Por que um RG de outro estado não valida aqui</h3>
+            <p>
+              Cole no Validador um RG emitido no Rio Grande do Sul, no Paraná ou
+              na Bahia e o resultado mais provável é{" "}
+              <em>dígito verificador inválido</em>. O número não está errado: ele
+              foi construído por outra regra, ou por regra nenhuma. Quando o
+              documento de origem tem mais ou menos de nove caracteres, a recusa
+              acontece antes, no teste de comprimento — o que já indica que nem o
+              tamanho serve de critério nacional.
+            </p>
+            <p>
+              Daí vem a inversão que costuma pegar quem escreve a validação: um RG
+              reprovado aqui pode estar perfeitamente correto na origem, e um RG
+              aprovado aqui pode nunca ter sido emitido por ninguém. As variações
+              entre estados e o que muda com a Carteira de Identidade Nacional
+              estão no guia{" "}
+              <a href="/guias/rg-por-estado-e-cin-carteira-identidade-nacional">
+                RG por estado e a nova CIN
+              </a>
+              .
+            </p>
+
+            <h3>Como modelar o campo em um sistema</h3>
+            <ul>
+              <li>
+                Guarde como <strong>texto</strong>. Coluna numérica descarta
+                zeros à esquerda e não comporta o <code>X</code>.
+              </li>
+              <li>
+                Guarde <strong>órgão emissor e UF</strong> em campos separados. O
+                número sozinho é ambíguo: a mesma sequência pode existir em dois
+                estados, para duas pessoas diferentes. Sem a UF não há sequer como
+                decidir qual algoritmo aplicar.
+              </li>
+              <li>
+                Aceite emissores que não são SSP. A identidade civil também sai de
+                DETRAN, Marinha, Aeronáutica, Polícia Federal e conselhos
+                profissionais, cada um com numeração própria.
+              </li>
+              <li>
+                Normalize antes de gravar (sem pontos nem traço, <code>X</code> em
+                maiúscula) e aplique a máscara apenas na exibição.
+              </li>
+              <li>
+                Torne o cálculo do DV <strong>condicional à UF</strong>, nunca uma
+                validação global — e, fora de São Paulo, prefira tratar a
+                divergência como aviso em vez de bloqueio de cadastro.
+              </li>
+            </ul>
+            <CodeBlock
+              language="SQL"
+              caption="Três colunas em vez de uma: o número perde o sentido quando separado de quem o emitiu."
+              code={RG_SCHEMA_SQL}
+            />
           </GuideSection>
 
           <AnatomySection
@@ -159,10 +219,10 @@ export default function GeradorDeRg() {
           <AlgorithmSection
             intro={
               <>
-                Base <code className="font-mono text-foreground">24598973</code> →
-                DV <code className="font-mono text-foreground">0</code> → RG
-                formatado{" "}
-                <code className="font-mono text-foreground">24.598.973-0</code>
+                Pesos 2 a 9 sobre os oito dígitos da base, da esquerda para a
+                direita. Os dois casos abaixo cobrem as saídas menos óbvias: o
+                resto 0, que devolve o dígito <code className="font-mono text-foreground">0</code>,
+                e o resto 1, que devolve <code className="font-mono text-foreground">X</code>.
               </>
             }
             steps={[
@@ -170,8 +230,105 @@ export default function GeradorDeRg() {
               "Somar os produtos e calcular o resto da divisão por 11.",
               "DV = 11 − resto; resultado 10 vira X e 11 vira 0.",
             ]}
-            note="O RG é emitido por cada estado com regras próprias. Esta ferramenta usa a convenção da SSP-SP, a mais difundida entre os validadores."
+            worked={[
+              {
+                title: "24.598.973-0 — quando o resto é 0",
+                steps: [
+                  { char: "2", weight: 2 },
+                  { char: "4", weight: 3 },
+                  { char: "5", weight: 4 },
+                  { char: "9", weight: 5 },
+                  { char: "8", weight: 6 },
+                  { char: "9", weight: 7 },
+                  { char: "7", weight: 8 },
+                  { char: "3", weight: 9 },
+                ],
+                sum: 275,
+                remainder: 0,
+                rule: "11 − 0 = 11, e 11 não é um dígito: por convenção, vira 0.",
+                result: "0",
+              },
+              {
+                title: "82.345.678-X — quando o resto é 1",
+                steps: [
+                  { char: "8", weight: 2 },
+                  { char: "2", weight: 3 },
+                  { char: "3", weight: 4 },
+                  { char: "4", weight: 5 },
+                  { char: "5", weight: 6 },
+                  { char: "6", weight: 7 },
+                  { char: "7", weight: 8 },
+                  { char: "8", weight: 9 },
+                ],
+                sum: 254,
+                remainder: 1,
+                rule: "11 − 1 = 10, que não cabe em uma posição: o dígito é a letra X.",
+                result: "X",
+              },
+            ]}
+            note="Cada estado emite o RG com regras próprias. Esta ferramenta usa a convenção da SSP-SP, a mais difundida entre os validadores."
           />
+
+          <GuideSection title="Erros comuns no campo RG">
+            <h3>A coluna só aceita dígitos e o X é recusado</h3>
+            <p>
+              Como o verificador é o resto da divisão por 11, aproximadamente um
+              em cada onze RGs do padrão paulista termina em <code>X</code>. É
+              frequência suficiente para o problema aparecer em produção e baixa
+              o bastante para passar em branco na homologação. Os três sintomas
+              são sempre variações da mesma causa: a máscara de entrada aceita
+              apenas <code>[0-9]</code>, o regex de validação é{" "}
+              <code>{"^\\d{9}$"}</code> ou a coluna do banco é numérica. O padrão
+              correto é o publicado na seção Regex acima, com{" "}
+              <code>[0-9X]</code> na última posição — e convém aceitar o{" "}
+              <code>x</code> minúsculo digitado pelo usuário, normalizando para
+              maiúscula antes de comparar. Gere um lote aqui até sair um número
+              terminado em <code>X</code> e use-o como caso de teste fixo. Esse
+              descuido e o de barrar RG emitido fora de São Paulo estão
+              detalhados, com sintoma e reprodução, em{" "}
+              <a href="/guias/erros-comuns-validadores-documentos-brasileiros">
+                erros comuns em validadores de documentos
+              </a>
+              .
+            </p>
+
+            <h3>RG usado como chave única de pessoa</h3>
+            <p>
+              Enquanto não havia base unificada, quem morou em estados diferentes
+              podia obter um RG em cada um, sem relação entre os números. Uma
+              coluna <code>rg</code> com restrição de unicidade embute duas
+              suposições erradas de uma vez: que cada pessoa tem exatamente um RG
+              e que dois RGs iguais pertencem à mesma pessoa. A segunda causa mais
+              estrago, porque sequências curtas de estados distintos colidem de
+              verdade — o resultado vai de cadastro duplicado a dois clientes
+              fundidos no mesmo registro. Para identificar pessoa física, a chave
+              é o CPF, que é justamente o identificador adotado pela CIN.
+            </p>
+
+            <h3>Deslizes menores que aparecem depois</h3>
+            <ul>
+              <li>
+                Comparar valor com máscara contra valor sem máscara: o mesmo
+                documento vira dois registros distintos. Normalize os dois lados
+                antes de comparar ou de aplicar índice único.
+              </li>
+              <li>
+                Deduzir data ou local de emissão a partir do número. A base é
+                sequencial dentro do estado, mas nada nela codifica quando ou onde
+                o documento foi expedido.
+              </li>
+              <li>
+                Exigir RG em cadastro que não precisa dele. Dado pessoal coletado
+                sem finalidade definida é passivo — o tema está em{" "}
+                <a href="/guias/lgpd-dados-de-teste">LGPD e dados de teste</a>.
+              </li>
+              <li>
+                Popular homologação com RGs de pessoas reais, copiados da base de
+                produção. É exatamente o cenário que um gerador de números
+                fictícios existe para substituir.
+              </li>
+            </ul>
+          </GuideSection>
 
           <FaqSection items={RG_FAQ} />
 

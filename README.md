@@ -1,24 +1,39 @@
 # bateCarimbo
 
-Gerador, validador e formatador de CNPJ **numérico** (legado) e **alfanumérico** (novo formato SERPRO) para testes de software.
+Suíte gratuita de geradores, validadores e formatadores de documentos e dados brasileiros **fictícios**, para uso em testes de software.
 
-> **Aviso:** CNPJs gerados são fictícios e destinados exclusivamente a ambientes de desenvolvimento e testes. Não representam empresas reais.
+**Site oficial:** [batecarimbo.com.br](https://batecarimbo.com.br)
 
-## Funcionalidades
+> **Aviso:** todos os números gerados são fictícios. Eles têm formato e dígitos verificadores corretos, mas não pertencem a nenhuma pessoa, empresa ou veículo real e não constam em cadastro oficial algum. Uso restrito a desenvolvimento, homologação e demonstração.
 
-- **Gerador** — CNPJs válidos em lote (1–100), com ou sem máscara
-- **Validador** — verifica dígitos verificadores e detecta o formato
-- **Formatador** — aplica ou remove a máscara `XX.XXX.XXX/XXXX-XX`
-- **Referência** — regex, comparativo de formatos e links oficiais
+## Ferramentas
 
-## Formatos suportados
+| Documento | Rota | Observação |
+|---|---|---|
+| CNPJ | `/` | numérico e alfanumérico, com validador e formatador |
+| CPF | `/gerador-de-cpf` | por região fiscal (9º dígito) |
+| CNH | `/gerador-de-cnh` | registro de 11 dígitos com os dois DVs |
+| Título de eleitor | `/gerador-de-titulo-de-eleitor` | por UF, com a exceção SP/MG do TSE |
+| PIS/PASEP/NIS/NIT | `/gerador-de-pis` | mesmo número, quatro siglas |
+| RG | `/gerador-de-rg` | padrão SSP-SP, com DV que pode ser X |
+| RENAVAM | `/gerador-de-renavam` | 11 dígitos, aceita os antigos de 9 |
+| Placa | `/gerador-de-placa` | Mercosul e padrão antigo |
+| CEP | `/gerador-de-cep` | dentro das faixas oficiais por estado |
+| Pessoas | `/gerador-de-pessoas` | ficha completa coerente por UF |
+| Empresas | `/gerador-de-empresas` | razão social, CNPJ, porte e endereço |
+| Nomes | `/gerador-de-nomes` | prenomes e sobrenomes brasileiros |
+| Usernames | `/gerador-de-nicks` | identificadores públicos para testes |
+
+Além das ferramentas, o site publica [guias técnicos](https://batecarimbo.com.br/guias) sobre validação de documentos brasileiros: módulo 11, CNPJ alfanumérico, validação em JavaScript, Python, Java, C# e SQL, regex, massa de dados de teste e LGPD.
+
+## Formatos do CNPJ
 
 | Formato | Regex (sem máscara) | Descrição |
 |---------|---------------------|-----------|
-| Numérico | `^\d{14}$` | 14 dígitos — formato atual |
-| Alfanumérico | `^[0-9A-Z]{12}\d{2}$` | 12 chars alfanuméricos + 2 DVs numéricos (jul/2026+) |
+| Numérico | `^\d{14}$` | 14 dígitos — formato legado, segue válido |
+| Alfanumérico | `^[0-9A-Z]{12}\d{2}$` | 12 caracteres alfanuméricos + 2 DVs numéricos |
 
-O cálculo do dígito verificador segue o **módulo 11** com conversão ASCII − 48 para o formato alfanumérico, conforme [manual Serpro](https://www.gov.br/receitafederal/pt-br/centrais-de-conteudo/publicacoes/documentos-tecnicos/cnpj/manual-dv-cnpj.pdf).
+O cálculo do dígito verificador segue o **módulo 11**, com conversão ASCII − 48 no formato alfanumérico, conforme o [manual do SERPRO](https://www.gov.br/receitafederal/pt-br/centrais-de-conteudo/publicacoes/documentos-tecnicos/cnpj/manual-dv-cnpj.pdf).
 
 **Exemplo oficial:** `12.ABC.345/01DE-35`
 
@@ -27,7 +42,9 @@ O cálculo do dígito verificador segue o **módulo 11** com conversão ASCII �
 - [Next.js](https://nextjs.org) 16 (App Router)
 - TypeScript
 - Tailwind CSS 4
-- [shadcn/ui](https://ui.shadcn.com)
+- [shadcn/ui](https://ui.shadcn.com) sobre [Base UI](https://base-ui.com)
+
+Tudo roda no navegador: não há backend, banco de dados nem chamada de API. Nenhum dado gerado sai da máquina de quem usa.
 
 ## Desenvolvimento
 
@@ -39,9 +56,11 @@ npm run build    # build de produção
 npm run lint     # ESLint
 ```
 
-## Deploy
+## Autor
 
-Compatível com [Vercel](https://vercel.com) — deploy zero-config, sem backend nem banco de dados.
+Mantido por **João Guilherme Heinrichs**, desenvolvedor em Porto Alegre (RS) — [github.com/GuiHeinrichs](https://github.com/GuiHeinrichs).
+
+Correções e sugestões são bem-vindas por [issue](https://github.com/GuiHeinrichs/brasil-cnpj/issues) ou pela [página de contato](https://batecarimbo.com.br/contato) do site.
 
 ## Licença
 

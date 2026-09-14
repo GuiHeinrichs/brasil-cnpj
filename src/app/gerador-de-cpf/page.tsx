@@ -13,9 +13,9 @@ import { MAX_BATCH_SIZE } from "@/lib/cpf";
 import { CPF_FAQ } from "@/lib/faq";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 
-const PAGE_TITLE = "Gerador de CPF válido — por região fiscal e em lote";
+const PAGE_TITLE = "Gerador de CPF por região fiscal — com validador";
 const PAGE_DESCRIPTION =
-  "Gere CPFs válidos para testes, grátis e em lote, escolhendo a região fiscal (estado). Valide os dígitos verificadores e aplique ou remova a máscara.";
+  "Gere CPFs fictícios com dígitos verificadores corretos escolhendo a região fiscal do 9º dígito. Validador com detecção de estado, formatador de máscara e a conta do módulo 11 resolvida.";
 
 export const metadata: Metadata = {
   title: PAGE_TITLE,
@@ -76,7 +76,8 @@ export default function GeradorDeCpf() {
       <SiteHeader
         active="cpf"
         badge="Região fiscal no 9º dígito"
-        heading="Gerador de CPF válido por região fiscal — com validador, formatador e geração em lote para testes de software."
+        heading="Gerador de CPF por região fiscal"
+        lead={`Fixe o 9º dígito para obter CPFs de um estado específico e gere até ${MAX_BATCH_SIZE} de uma vez, com os dois verificadores calculados. As outras abas conferem números que você já tem e aplicam ou removem a máscara 000.000.000-00.`}
       />
 
       <Tabs defaultValue="generator" className="mt-8 w-full">

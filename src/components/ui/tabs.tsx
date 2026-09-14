@@ -69,10 +69,20 @@ function TabsTrigger({ className, ...props }: TabsPrimitive.Tab.Props) {
   )
 }
 
-function TabsContent({ className, ...props }: TabsPrimitive.Panel.Props) {
+/**
+ * Painel de aba. `keepMounted` por padrão: os painéis inativos ficam no DOM
+ * com `hidden`, então validador/formatador (e o texto de ajuda deles) entram
+ * no HTML gerado no servidor e são visíveis a rastreadores e leitores de tela.
+ */
+function TabsContent({
+  className,
+  keepMounted = true,
+  ...props
+}: TabsPrimitive.Panel.Props) {
   return (
     <TabsPrimitive.Panel
       data-slot="tabs-content"
+      keepMounted={keepMounted}
       className={cn("flex-1 text-sm outline-none", className)}
       {...props}
     />

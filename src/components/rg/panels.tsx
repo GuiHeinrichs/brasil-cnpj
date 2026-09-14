@@ -34,7 +34,7 @@ export function RgValidatorPanel() {
   return (
     <ValidatorPanel
       label="RGs para validar"
-      placeholder={"12.345.678-9\n39.485.012-3"}
+      placeholder={"12.345.678-2\n39.485.012-3"}
       segments={RG_SEGMENTS}
       length={RG_LENGTH}
       validate={(input) =>
@@ -54,7 +54,7 @@ export function RgFormatterPanel() {
   return (
     <FormatterPanel
       label="RG"
-      placeholder="12.345.678-9 ou 123456789"
+      placeholder="12.345.678-2 ou 123456782"
       helper="Aplica ou remove a máscara 00.000.000-0. O DV pode ser X."
       segments={RG_SEGMENTS}
       length={RG_LENGTH}

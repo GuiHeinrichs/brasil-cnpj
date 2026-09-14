@@ -8,7 +8,7 @@ import { JsonLd } from "@/components/json-ld";
 import { SiteTopBar } from "@/components/site-top-bar";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
-import { ADSENSE_CLIENT } from "@/lib/ads";
+import { ADSENSE_CLIENT, isAdSlotLive } from "@/lib/ads";
 import { siteJsonLd } from "@/lib/schema";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, SITE_URL } from "@/lib/site";
 
@@ -44,20 +44,20 @@ export const metadata: Metadata = {
     "formatador de CNPJ",
     "gerador de dados para testes",
   ],
-  alternates: {
-    canonical: "/",
-  },
+  // O canonical é definido por página (cada page.tsx declara o seu); a home
+  // declara "/" em src/app/page.tsx. Assim a 404 e rotas utilitárias não
+  // herdam o canonical da home.
   openGraph: {
     type: "website",
     url: "/",
     siteName: SITE_NAME,
     locale: "pt_BR",
-    title: "Gerador de CNPJ válido — numérico e alfanumérico",
+    title: "Gerador de CNPJ válido para testes — numérico e alfanumérico",
     description: SITE_DESCRIPTION,
   },
   twitter: {
     card: "summary_large_image",
-    title: "Gerador de CNPJ válido — numérico e alfanumérico",
+    title: "Gerador de CNPJ válido para testes — numérico e alfanumérico",
     description: SITE_DESCRIPTION,
   },
   robots: {
@@ -83,6 +83,10 @@ export const viewport: Viewport = {
   ],
 };
 
+// O trilho lateral só existe quando o bloco de anúncio está configurado; sem
+// isso, não reservamos uma coluna vazia de 300px.
+const SHOW_RAIL = isAdSlotLive("rail-right");
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -102,11 +106,13 @@ export default function RootLayout({
             <main className="flex w-full min-w-0 max-w-2xl flex-col">
               {children}
             </main>
-            <aside className="hidden shrink-0 xl:block">
-              <div className="sticky top-20 py-10">
-                <AdSlot variant="skyscraper" slot="rail-right" />
-              </div>
-            </aside>
+            {SHOW_RAIL && (
+              <aside className="hidden shrink-0 xl:block">
+                <div className="sticky top-20 py-10">
+                  <AdSlot variant="skyscraper" slot="rail-right" />
+                </div>
+              </aside>
+            )}
           </div>
           <Toaster richColors closeButton />
           <CookieBanner />
