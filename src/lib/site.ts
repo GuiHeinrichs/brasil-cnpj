@@ -6,11 +6,12 @@ export const SITE_URL = "https://batecarimbo.com.br";
 export const SITE_NAME = "bateCarimbo";
 
 /**
- * E-mail de contato público (política de privacidade, LGPD). Aponta para o
- * domínio — configure um encaminhamento (registro MX) ou troque aqui se usar
- * outro endereço.
+ * E-mail de contato público, usado em /contato, /sobre, nos termos, na política
+ * de privacidade (canal de LGPD) e no contactPoint do schema.org. É uma caixa
+ * que recebe de fato — o domínio do site não tem registro MX, então um endereço
+ * @batecarimbo.com.br cairia no vazio.
  */
-export const CONTACT_EMAIL = "contato@batecarimbo.com.br";
+export const CONTACT_EMAIL = "guiheinrichs.dev@gmail.com";
 
 export const GITHUB_REPO_URL = "https://github.com/GuiHeinrichs/brasil-cnpj";
 export const GITHUB_ISSUES_URL = `${GITHUB_REPO_URL}/issues`;
